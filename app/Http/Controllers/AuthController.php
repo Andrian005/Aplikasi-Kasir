@@ -13,15 +13,22 @@ class AuthController extends Controller
 {
     public function index()
     {
-        return view('Login');
+        $title = 'Login';
+        return view('Login', compact('title'));
     }
 
     public function auth(LoginRequest $request)
     {
         if (Auth::attempt(['name' => $request['name'], 'password' => $request['password']])) {
-            return redirect()->route('dashboard')->with('success', 'Berhasil Login');
+            return redirect()->intended('dashboard')->with('success', 'Berhasil Login');
         } else {
             return redirect()->route('login')->with('error', 'Login Gagal, Username atau Password Salah!');
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }

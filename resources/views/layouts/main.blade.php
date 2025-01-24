@@ -1,112 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>{{ $title }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            overflow-x: hidden;
-        }
 
-        .sidebar {
-            height: 100vh;
-            background-color: #343a40;
-            color: #fff;
-        }
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
 
-        .sidebar a {
-            color: #ddd;
-            text-decoration: none;
-        }
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="assets/modules/jqvmap/dist/jqvmap.min.css">
+    <link rel="stylesheet" href="assets/modules/weather-icon/css/weather-icons.min.css">
+    <link rel="stylesheet" href="assets/modules/weather-icon/css/weather-icons-wind.min.css">
+    <link rel="stylesheet" href="assets/modules/summernote/summernote-bs4.css">
 
-        .sidebar a:hover {
-            color: #fff;
-        }
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <!-- Start GA -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-        .topbar {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .topbar .profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .content-wrapper {
-            padding: 20px;
-        }
-
-        .card-placeholder {
-            height: 120px;
-            background-color: #ddd;
-            border-radius: 8px;
-        }
-    </style>
+        gtag('config', 'UA-94034622-3');
+    </script>
+    <!-- /END GA -->
 </head>
+
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <nav class="col-md-2 sidebar d-flex flex-column p-3">
-            <h5 class="text-center mb-4">Kasir Kita</h5>
-            <div class="text-center mb-4">
-                <div class="rounded-circle bg-light mx-auto" style="width: 60px; height: 60px;"></div>
-                <p class="mt-2">Andrian</p>
-            </div>
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-bar-chart"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-box"></i> Product
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-people"></i> Pelanggan
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-cart"></i> Transaksi
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-gear"></i> Settings
-                    </a>
-                </li>
-            </ul>
-        </nav>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            @include('layouts.navbar')
 
-        <!-- Main Content -->
-        <div class="col-md-10">
-            <!-- Topbar -->
-            <div class="topbar d-flex justify-content-between align-items-center p-3">
-                <button class="btn btn-light d-md-none">
-                    <i class="bi bi-list"></i>
-                </button>
-                <h6 class="m-0">Dashboard</h6>
-                <div class="profile">
-                    <span>Andrian</span>
-                    <div class="rounded-circle bg-light" style="width: 40px; height: 40px;"></div>
-                </div>
-            </div>
+            @include('layouts.main-sidebar')
 
+            <!-- Main Content -->
             @yield('content')
-
+            
+            @include('layouts.footer')
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+    <!-- General JS Scripts -->
+    <script src="assets/modules/jquery.min.js"></script>
+    <script src="assets/modules/popper.js"></script>
+    <script src="assets/modules/tooltip.js"></script>
+    <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="assets/modules/moment.min.js"></script>
+    <script src="assets/js/stisla.js"></script>
+
+    <!-- JS Libraies -->
+    <script src="assets/modules/simple-weather/jquery.simpleWeather.min.js"></script>
+    <script src="assets/modules/chart.min.js"></script>
+    <script src="assets/modules/jqvmap/dist/jquery.vmap.min.js"></script>
+    <script src="assets/modules/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="assets/modules/summernote/summernote-bs4.js"></script>
+    <script src="assets/modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
+
+    <!-- Page Specific JS File -->
+    <script src="assets/js/page/index-0.js"></script>
+
+    <!-- Template JS File -->
+    <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/custom.js"></script>
 </body>
+
 </html>
