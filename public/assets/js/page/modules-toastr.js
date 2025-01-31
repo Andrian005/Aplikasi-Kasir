@@ -36,7 +36,7 @@ $("#toastr-5").click(function() {
   iziToast.show({
     title: 'Hello, world!',
     message: 'This awesome plugin is made by iziToast',
-    position: 'bottomRight' 
+    position: 'bottomRight'
   });
 });
 
@@ -44,7 +44,7 @@ $("#toastr-6").click(function() {
   iziToast.show({
     title: 'Hello, world!',
     message: 'This awesome plugin is made by iziToast',
-    position: 'bottomCenter' 
+    position: 'bottomCenter'
   });
 });
 
@@ -52,7 +52,7 @@ $("#toastr-7").click(function() {
   iziToast.show({
     title: 'Hello, world!',
     message: 'This awesome plugin is made by iziToast',
-    position: 'bottomLeft' 
+    position: 'bottomLeft'
   });
 });
 
@@ -60,6 +60,6 @@ $("#toastr-8").click(function() {
   iziToast.show({
     title: 'Hello, world!',
     message: 'This awesome plugin is made by iziToast',
-    position: 'topCenter' 
+    position: 'topCenter'
   });
 });
