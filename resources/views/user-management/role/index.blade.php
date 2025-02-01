@@ -12,9 +12,7 @@
                     <table class="table table-striped w-100" id="table-1">
                         <thead>
                             <tr>
-                                <th>Kode Kategori</th>
-                                <th>Nama Kategori</th>
-                                <th>Status</th>
+                                <th>Role</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -36,22 +34,20 @@
                 scrollX: true,
                 ajax: '',
                 columns: [
-                    { data: 'kode_kategori', name: 'kode_kategori' },
-                    { data: 'nama_kategori', name: 'nama_kategori' },
-                    { data: 'active', name: 'active', searchable: false, orderable: false },
+                    { data: 'role', name: 'role' },
                     {
                         data: 'id', name: '_', orderable: false, searchable: false, class: 'text-right nowrap',
                         render: function (data, type, row) {
                             let html;
                             html = `<button onclick="view(${data})" class="btn btn-info btn-icon mr-2" title="Lihat">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>`;
+                                        <i class="fas fa-eye"></i>
+                                    </button>`;
                             html += `<button onclick="edit(${data})" class="btn btn-warning btn-icon mr-2" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>`;
+                                        <i class="fas fa-edit"></i>
+                                    </button>`;
                             html += `<button onclick="destroy(${data})" class="btn btn-danger btn-icon mr-2" title="Hapus">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </button>`;
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>`;
                             return html;
                         }
                     }]
@@ -60,17 +56,17 @@
 
         function view(id) {
             $.ajax({
-                url: '{{ route('management-barang.kategori.view') }}/' + id,
+                url: '{{ route('user-management.role.view') }}/' + id,
                 success: function (response) {
                     bootbox.dialog({
-                        title: 'Detail Kategori Barang',
-                        message: response
+                        title: 'Detail Role',
+                        message: response,
                     });
                 },
-                error: function () {
+                error: function (response) {
                     iziToast.error({
                         title: 'Error',
-                        message: 'Gagal memuat view kategori.',
+                        message: 'Gagal memuat form view kategori.',
                         position: 'topRight',
                         timeout: 3000,
                         transitionIn: 'fadeInUp',
@@ -82,14 +78,14 @@
 
         function create() {
             $.ajax({
-                url: '{{ route('management-barang.kategori.create') }}',
+                url: '{{ route('user-management.role.create') }}',
                 success: function (response) {
                     bootbox.dialog({
-                        title: 'Tambah Kategori',
-                        message: response
+                        title: 'Tambah Role',
+                        message: response,
                     });
                 },
-                error: function () {
+                error: function (response) {
                     iziToast.error({
                         title: 'Error',
                         message: 'Gagal memuat form tambah kategori.',
@@ -105,7 +101,7 @@
         function store() {
             $('#formCreate .alert').remove();
             $.ajax({
-                url: '{{ route('management-barang.kategori.store') }}',
+                url: '{{ route('user-management.role.store') }}',
                 type: 'POST',
                 dataType: 'JSON',
                 data: $('#formCreate').serialize(),
@@ -122,7 +118,7 @@
                         dataTable.ajax.reload();
                     } else {
                         iziToast.error({
-                            title: 'Failed',
+                            title: 'Error',
                             message: response.message,
                             position: 'topRight',
                             timeout: 3000,
@@ -141,17 +137,17 @@
 
         function edit(id) {
             $.ajax({
-                url: '{{ route('management-barang.kategori.edit') }}/' + id,
+                url: '{{ route('user-management.role.edit') }}/' + id,
                 success: function (response) {
                     bootbox.dialog({
-                        title: 'Edit Kategori',
-                        message: response
+                        title: 'Edit Role',
+                        message: response,
                     });
                 },
-                error: function () {
+                error: function (response) {
                     iziToast.error({
                         title: 'Error',
-                        message: 'Gagal memuat form edit kategori.',
+                        message: 'Gagal memuat form edit role.',
                         position: 'topRight',
                         timeout: 3000,
                         transitionIn: 'fadeInUp',
@@ -164,7 +160,7 @@
         function update(id) {
             $('#formEdit .alert').remove();
             $.ajax({
-                url: '{{ route('management-barang.kategori.update') }}/' + id,
+                url: '{{ route('user-management.role.update') }}/' + id,
                 type: 'POST',
                 dataType: 'JSON',
                 data: $('#formEdit').serialize(),
@@ -181,7 +177,7 @@
                         dataTable.ajax.reload();
                     } else {
                         iziToast.error({
-                            title: 'Failed',
+                            title: 'Error',
                             message: response.message,
                             position: 'topRight',
                             timeout: 3000,
@@ -202,7 +198,7 @@
             alertDestroy().then((result) => {
                 if (result) {
                     $.ajax({
-                        url: '{{ route('management-barang.kategori.delete') }}/' + id,
+                        url: '{{ route('user-management.role.delete') }}/' + id,
                         success: function (response) {
                             if (response.success) {
                                 iziToast.success({
