@@ -2,29 +2,28 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
+use App\Repository\UserRepository;
 use Exception;
-use App\Repository\RoleRepository;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
-class RoleServices
+class UserServices
 {
-    protected $roleRepository;
+    protected $userRepository;
 
-    public function __construct(RoleRepository $roleRepository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->roleRepository = $roleRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function index()
     {
-        return $this->roleRepository->getRole();
+        return $this->userRepository->getUser();
     }
 
     public function find($id)
     {
-        return $this->roleRepository->findById($id);
+        return $this->userRepository->findById($id);
     }
 
     public function store($data)
@@ -33,22 +32,24 @@ class RoleServices
         try {
 
             $data = [
-                'role' => $data['role'],
-                'created_by' => Auth::user()->name,
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role_id' => $data['role'],
             ];
 
-            $this->roleRepository->store($data);
+            $this->userRepository->store($data);
 
             DB::commit();
             return [
-                'message' => 'Kategori Berhasil di Tambah',
+                'message' => 'User Berhasil di Tambah',
                 'success' => true,
                 'status' => 200
             ];
         } catch (Exception $e) {
             DB::rollBack();
             return [
-                'message' => 'Kategori Gagal di Tambah',
+                'message' => 'User Gagal di Tambah',
                 'errors' => $e->getMessage(),
                 'status' => $e->getCode(),
                 'success' => false,
@@ -60,23 +61,28 @@ class RoleServices
     {
         DB::beginTransaction();
         try {
-            $model = $this->roleRepository->findById($id);
 
-            $model->role = $data['role'];
-            $model->updated_at = Carbon::now();
-            $model->updated_by = Auth::user()->name;
+            $model = $this->userRepository->findById($id);
 
-            $this->roleRepository->update($id, $data);
+            $model->name = $data['name'];
+            $model->email = $data['email'];
+            $model->role_id = $data['role'];
+
+            if (!empty($data['password'])) {
+                $model->password = Hash::make($data['password']);
+            }
+
+            $this->userRepository->update($id, $data);
             DB::commit();
             return [
-                'message' => 'Role Berhasil di Update',
+                'message' => 'User Berhasil di Update',
                 'success' => true,
                 'status' => 200
             ];
         } catch (Exception $e) {
             DB::rollBack();
             return [
-                'message' => 'Kategori Gagal di Update',
+                'message' => 'User Gagal di Tambah',
                 'errors' => $e->getMessage(),
                 'status' => $e->getCode(),
                 'success' => false,
@@ -89,18 +95,18 @@ class RoleServices
         DB::beginTransaction();
         try {
 
-            $this->roleRepository->delete($id);
+            $this->userRepository->delete($id);
 
             DB::commit();
             return [
-                'message' => 'Role Berhasil di Delete',
+                'message' => 'User Berhasil di Delete',
                 'success' => true,
                 'status' => 200
             ];
         } catch (Exception $e) {
             DB::rollBack();
             return [
-                'message' => 'Role Gagal Dihapus',
+                'message' => 'User Gagal Dihapus',
                 'errors' => $e->getMessage(),
                 'status' => $e->getCode(),
                 'success' => false,

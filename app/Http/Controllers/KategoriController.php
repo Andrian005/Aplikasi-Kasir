@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KategoriRequest;
 use App\Services\KategoriServices;
-use Exception;
-use App\Models\Kategori;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class KategoriController extends Controller
@@ -56,7 +52,7 @@ class KategoriController extends Controller
 
     public function update(KategoriRequest $request, $id)
     {
-        $data = $this->kategoriServices->Update($request->validated(), $id);
+        $data = $this->kategoriServices->update($request->validated(), $id);
         return response()->json($data);
     }
 

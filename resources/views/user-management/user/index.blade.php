@@ -12,7 +12,9 @@
                     <table class="table table-striped w-100" id="table-1">
                         <thead>
                             <tr>
-                                <th>Role</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Hak Akses</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -34,7 +36,9 @@
                 scrollX: true,
                 ajax: '',
                 columns: [
-                    { data: 'role', name: 'role' },
+                    { data: 'name', name: 'name' },
+                    { data: 'email', name: 'email' },
+                    { data: 'role.role', name: 'role.role' },
                     {
                         data: 'id', name: '_', orderable: false, searchable: false, class: 'text-right nowrap',
                         render: function (data, type, row) {
@@ -56,7 +60,7 @@
 
         function view(id) {
             $.ajax({
-                url: '{{ route('user-management.role.view') }}/' + id,
+                url: '{{ route('user-management.user.view') }}/' + id,
                 success: function (response) {
                     bootbox.dialog({
                         title: 'Detail Role',
@@ -66,7 +70,7 @@
                 error: function (response) {
                     iziToast.error({
                         title: 'Error',
-                        message: 'Gagal memuat form view role.',
+                        message: 'Gagal memuat form view user.',
                         position: 'topRight',
                         timeout: 3000,
                         transitionIn: 'fadeInUp',
@@ -78,17 +82,17 @@
 
         function create() {
             $.ajax({
-                url: '{{ route('user-management.role.create') }}',
+                url: '{{ route('user-management.user.create') }}',
                 success: function (response) {
                     bootbox.dialog({
-                        title: 'Tambah Role',
+                        title: 'Tambah User',
                         message: response,
                     });
                 },
                 error: function (response) {
                     iziToast.error({
                         title: 'Error',
-                        message: 'Gagal memuat form tambah role.',
+                        message: 'Gagal memuat form tambah user.',
                         position: 'topRight',
                         timeout: 3000,
                         transitionIn: 'fadeInUp',
@@ -101,7 +105,7 @@
         function store() {
             $('#formCreate .alert').remove();
             $.ajax({
-                url: '{{ route('user-management.role.store') }}',
+                url: '{{ route('user-management.user.store') }}',
                 type: 'POST',
                 dataType: 'JSON',
                 data: $('#formCreate').serialize(),
@@ -137,17 +141,17 @@
 
         function edit(id) {
             $.ajax({
-                url: '{{ route('user-management.role.edit') }}/' + id,
+                url: '{{ route('user-management.user.edit') }}/' + id,
                 success: function (response) {
                     bootbox.dialog({
-                        title: 'Edit Role',
+                        title: 'Edit User',
                         message: response,
                     });
                 },
                 error: function (response) {
                     iziToast.error({
                         title: 'Error',
-                        message: 'Gagal memuat form edit role.',
+                        message: 'Gagal memuat form edit user.',
                         position: 'topRight',
                         timeout: 3000,
                         transitionIn: 'fadeInUp',
@@ -160,7 +164,7 @@
         function update(id) {
             $('#formEdit .alert').remove();
             $.ajax({
-                url: '{{ route('user-management.role.update') }}/' + id,
+                url: '{{ route('user-management.user.update') }}/' + id,
                 type: 'POST',
                 dataType: 'JSON',
                 data: $('#formEdit').serialize(),
@@ -198,7 +202,7 @@
             alertDestroy().then((result) => {
                 if (result) {
                     $.ajax({
-                        url: '{{ route('user-management.role.delete') }}/' + id,
+                        url: '{{ route('user-management.user.delete') }}/' + id,
                         success: function (response) {
                             if (response.success) {
                                 iziToast.success({

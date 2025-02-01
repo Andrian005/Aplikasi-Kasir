@@ -14,7 +14,7 @@ class KategoriRepository
     }
     public function getKategori()
     {
-        return $this->kategori::select('*');
+        return $this->kategori::all();
     }
 
     public function findById($id)

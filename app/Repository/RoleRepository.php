@@ -15,7 +15,7 @@ class RoleRepository
 
     public function getRole()
     {
-        return $this->role::select('*');
+        return $this->role::all();
     }
 
     public function findById($id)

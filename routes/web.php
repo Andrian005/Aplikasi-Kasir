@@ -44,6 +44,12 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
 
         Route::prefix('user')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('user-management.user.index');
+            Route::get('view/{id?}', [UserController::class, 'view'])->name('user-management.user.view');
+            Route::get('create', [UserController::class, 'create'])->name('user-management.user.create');
+            Route::post('store', [UserController::class, 'store'])->name('user-management.user.store');
+            Route::get('edit/{id?}', [UserController::class, 'edit'])->name('user-management.user.edit');
+            Route::post('update/{id?}', [UserController::class, 'update'])->name('user-management.user.update');
+            Route::get('delete/{id?}', [UserController::class, 'delete'])->name('user-management.user.delete');
         });
     });
 });

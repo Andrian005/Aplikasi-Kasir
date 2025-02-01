@@ -44,14 +44,14 @@
                         render: function (data, type, row) {
                             let html;
                             html = `<button onclick="view(${data})" class="btn btn-info btn-icon mr-2" title="Lihat">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>`;
+                                        <i class="fas fa-eye"></i>
+                                    </button>`;
                             html += `<button onclick="edit(${data})" class="btn btn-warning btn-icon mr-2" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>`;
+                                        <i class="fas fa-edit"></i>
+                                    </button>`;
                             html += `<button onclick="destroy(${data})" class="btn btn-danger btn-icon mr-2" title="Hapus">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </button>`;
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>`;
                             return html;
                         }
                     }]
