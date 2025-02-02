@@ -22,7 +22,6 @@
                     <span>Manajement Barang</span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ route('management-barang.kategori.index') }}" class="nav-link">Kategori</a></li>
-                    <li><a href="#" class="nav-link">Harga Jual</a></li>
                     <li><a href="{{ route('management-barang.barang.index') }}" class="nav-link">Barang</a></li>
                     <li><a href="#" class="nav-link">Diskon Barang</a></li>
                 </ul>
@@ -32,7 +31,7 @@
                     <span>Manajement Pelanggan</span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ route('management-pelanggan.type-pelanggan.index') }}" class="nav-link">Type Pelanggan</a></li>
-                    <li><a href="#" class="nav-link">Pelanggan</a></li>
+                    <li><a href="{{ route('management-pelanggan.pelanggan.index') }}" class="nav-link">Pelanggan</a></li>
                 </ul>
             </li>
             <li class="dropdown">

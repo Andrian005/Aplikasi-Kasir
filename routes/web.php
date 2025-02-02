@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PelangganController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
@@ -52,6 +53,16 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
             Route::get('edit/{id?}', [TypePelangganController::class, 'edit'])->name('management-pelanggan.type-pelanggan.edit');
             Route::post('update/{id?}', [TypePelangganController::class, 'update'])->name('management-pelanggan.type-pelanggan.update');
             Route::get('delete/{id?}', [TypePelangganController::class, 'delete'])->name('management-pelanggan.type-pelanggan.delete');
+        });
+
+        Route::prefix('pelanggan')->group(function () {
+            Route::get('/', [PelangganController::class, 'index'])->name('management-pelanggan.pelanggan.index');
+            Route::get('view/{id?}', [PelangganController::class, 'view'])->name('management-pelanggan.pelanggan.view');
+            Route::get('create', [PelangganController::class, 'create'])->name('management-pelanggan.pelanggan.create');
+            Route::post('store', [PelangganController::class, 'store'])->name('management-pelanggan.pelanggan.store');
+            Route::get('edit/{id?}', [PelangganController::class, 'edit'])->name('management-pelanggan.pelanggan.edit');
+            Route::post('update/{id?}', [PelangganController::class, 'update'])->name('management-pelanggan.pelanggan.update');
+            Route::get('delete/{id?}', [PelangganController::class, 'delete'])->name('management-pelanggan.pelanggan.delete');
         });
     });
 

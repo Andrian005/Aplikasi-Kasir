@@ -18,7 +18,6 @@ return new class extends Migration
             $table->date('tanggal_pembelian');
             $table->date('expired_date');
             $table->integer('harga_beli');
-            $table->integer('type_pelanggan_id');
             $table->integer('stok');
             $table->integer('minimal_stok');
             $table->integer('kategori_id');
