@@ -22,11 +22,19 @@
                     <span>Manajement Barang</span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ route('management-barang.kategori.index') }}" class="nav-link">Kategori</a></li>
-                    <li><a href="#" class="nav-link">Barang</a></li>
+                    <li><a href="#" class="nav-link">Harga Jual</a></li>
+                    <li><a href="{{ route('management-barang.barang.index') }}" class="nav-link">Barang</a></li>
                     <li><a href="#" class="nav-link">Diskon Barang</a></li>
                 </ul>
             </li>
-            <li><a class="nav-link" href="blank.html"><i class="fas fa-user"></i> <span>Pelanggan</span></a></li>
+            <li class="dropdown">
+                <a class="nav-link has-dropdown" href="#"><i class="fas fa-user"></i>
+                    <span>Manajement Pelanggan</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ route('management-pelanggan.type-pelanggan.index') }}" class="nav-link">Type Pelanggan</a></li>
+                    <li><a href="#" class="nav-link">Pelanggan</a></li>
+                </ul>
+            </li>
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-flag"></i>
                     <span>Laporan</span></a>

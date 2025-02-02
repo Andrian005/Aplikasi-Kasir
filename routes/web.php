@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TypePelangganController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -28,6 +30,28 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
             Route::get('edit/{id?}', [KategoriController::class, 'edit'])->name('management-barang.kategori.edit');
             Route::post('update/{id?}', [KategoriController::class, 'update'])->name('management-barang.kategori.update');
             Route::get('delete/{id?}', [KategoriController::class, 'delete'])->name('management-barang.kategori.delete');
+        });
+
+        Route::prefix('barang')->group(function () {
+            Route::get('/', [BarangController::class, 'index'])->name('management-barang.barang.index');
+            Route::get('view/{id?}', [BarangController::class, 'view'])->name('management-barang.barang.view');
+            Route::get('create', [BarangController::class, 'create'])->name('management-barang.barang.create');
+            Route::post('store', [BarangController::class, 'store'])->name('management-barang.barang.store');
+            Route::get('edit/{id?}', [BarangController::class, 'edit'])->name('management-barang.barang.edit');
+            Route::post('update/{id?}', [BarangController::class, 'update'])->name('management-barang.barang.update');
+            Route::get('delete/{id?}', [BarangController::class, 'delete'])->name('management-barang.barang.delete');
+        });
+    });
+
+    Route::prefix('management-pelanggan')->group(function () {
+        Route::prefix('type-pelanggan')->group(function () {
+            Route::get('/', [TypePelangganController::class, 'index'])->name('management-pelanggan.type-pelanggan.index');
+            Route::get('view/{id?}', [TypePelangganController::class, 'view'])->name('management-pelanggan.type-pelanggan.view');
+            Route::get('create', [TypePelangganController::class, 'create'])->name('management-pelanggan.type-pelanggan.create');
+            Route::post('store', [TypePelangganController::class, 'store'])->name('management-pelanggan.type-pelanggan.store');
+            Route::get('edit/{id?}', [TypePelangganController::class, 'edit'])->name('management-pelanggan.type-pelanggan.edit');
+            Route::post('update/{id?}', [TypePelangganController::class, 'update'])->name('management-pelanggan.type-pelanggan.update');
+            Route::get('delete/{id?}', [TypePelangganController::class, 'delete'])->name('management-pelanggan.type-pelanggan.delete');
         });
     });
 
