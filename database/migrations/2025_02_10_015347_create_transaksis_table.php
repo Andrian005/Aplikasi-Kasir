@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->string('invoice')->unique();
-            $table->unsignedBigInteger('kasir_id')->nullable();
             $table->unsignedBigInteger('pelanggan_id')->nullable();
             $table->decimal('total_belanja', 20, 0);
             $table->decimal('diskon', 20, 0)->default(0);
@@ -27,13 +26,9 @@ return new class extends Migration {
             $table->string('updated_by')->nullable();
             $table->timestamps();
 
-            $table->foreign('kasir_id')
-                ->references('id')
-                ->on('users') // Pastikan nama tabel sesuai dengan yang ada
-                ->onDelete('set null');
             $table->foreign('pelanggan_id')
                 ->references('id')
-                ->on('pelanggans') // Pastikan nama tabel sesuai dengan yang ada
+                ->on('pelanggans')
                 ->onDelete('set null');
         });
     }
