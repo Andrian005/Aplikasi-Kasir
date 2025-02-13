@@ -22,30 +22,29 @@ class PelangganRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_pelanggan'    => 'required|string|max:255',
-            'alamat'            => 'required|string|max:255',
-            'nomor_telepon'     => 'required|numeric|digits_between:10,15|unique:pelanggans,nomor_telepon',
-            'jenis_kelamin'     => 'required|in:L,P',
+            'nama_pelanggan' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'nomor_telepon' => 'required|numeric|digits_between:10,15',
+            'jenis_kelamin' => 'required|in:L,P',
             'type_pelanggan_id' => 'required|exists:type_pelanggans,id',
-            'poin_member'       => 'required|numeric',
+            'poin_member' => 'required|numeric',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'nama_pelanggan.required'    => 'Nama pelanggan wajib diisi.',
-            'alamat.required'            => 'Alamat wajib diisi.',
-            'nomor_telepon.required'     => 'Nomor telepon wajib diisi.',
-            'nomor_telepon.numeric'      => 'Nomor telepon harus berupa angka.',
+            'nama_pelanggan.required' => 'Nama pelanggan wajib diisi.',
+            'alamat.required' => 'Alamat wajib diisi.',
+            'nomor_telepon.required' => 'Nomor telepon wajib diisi.',
+            'nomor_telepon.numeric' => 'Nomor telepon harus berupa angka.',
             'nomor_telepon.digits_between' => 'Nomor telepon harus antara 10 hingga 15 digit.',
-            'nomor_telepon.unique'       => 'Nomor telepon sudah terdaftar.',
-            'jenis_kelamin.required'     => 'Jenis kelamin wajib dipilih.',
-            'jenis_kelamin.in'           => 'Jenis kelamin harus L (Laki-laki) atau P (Perempuan).',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'jenis_kelamin.in' => 'Jenis kelamin harus L (Laki-laki) atau P (Perempuan).',
             'type_pelanggan_id.required' => 'Type pelanggan wajib dipilih.',
-            'type_pelanggan_id.exists'   => 'Type pelanggan yang dipilih tidak valid.',
-            'poin_member.required'       => 'Poin Member harus di isi',
-            'poin_member.numeric'        => 'Poin Member harus berupa angka',
+            'type_pelanggan_id.exists' => 'Type pelanggan yang dipilih tidak valid.',
+            'poin_member.required' => 'Poin Member harus di isi',
+            'poin_member.numeric' => 'Poin Member harus berupa angka',
         ];
     }
 }

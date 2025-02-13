@@ -18,23 +18,13 @@ class TypePelangganRepository
         return $this->typePelanggan::all();
     }
 
+    public function getTypePelangganDiskon()
+    {
+        return $this->typePelanggan::with('diskon')->get();
+    }
+
     public function findById($id)
     {
         return $this->typePelanggan::findOrFail($id);
-    }
-
-    public function store($data)
-    {
-        return $this->typePelanggan::create($data);
-    }
-
-    public function update($id, $data)
-    {
-        return $this->typePelanggan->findOrFail($id)->update($data);
-    }
-
-    public function delete($id)
-    {
-        return $this->typePelanggan->findOrFail($id)->delete();
     }
 }

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,16 +14,20 @@ return new class extends Migration
             $table->id();
             $table->string('kode_diskon');
             $table->string('nama_diskon');
+            $table->decimal('min_diskon', 20, 0);
+            $table->decimal('max_diskon', 20, 0);
             $table->integer('diskon');
-            $table->integer('minimal');
-            $table->integer('maksimal');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_berakhir');
-            $table->integer('type_pelanggan');
-            $table->integer('active');
+            $table->unsignedBigInteger('type_pelanggan_id')->nullable();
+            $table->date('tgl_mulai');
+            $table->date('tgl_berakhir');
             $table->timestamps();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+
+            $table->foreign('type_pelanggan_id')
+                ->references('id')
+                ->on('type_pelanggans')
+                ->onDelete('set null');
         });
     }
 

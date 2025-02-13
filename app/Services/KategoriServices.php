@@ -36,7 +36,6 @@ class KategoriServices
             $data = [
                 'kode_kategori' => $data['kode_kategori'],
                 'nama_kategori' => $data['nama_kategori'],
-                'active' => 1,
                 'created_by' => Auth::user()->name,
             ];
 
@@ -63,12 +62,13 @@ class KategoriServices
     {
         DB::beginTransaction();
         try {
-            $model = $this->kategoriRepository->findById($id);
 
-            $model->kode_kategori = $data['kode_kategori'];
-            $model->nama_kategori = $data['nama_kategori'];
-            $model->updated_at = Carbon::now();
-            $model->updated_by = Auth::user()->name;
+            $data = [
+                'kode_kategori' => $data['kode_kategori'],
+                'nama_kategori' => $data['nama_kategori'],
+                'updated_at' => Carbon::now(),
+                'updated_by' => Auth::user()->name,
+            ];
 
             $this->kategoriRepository->update($id, $data);
 

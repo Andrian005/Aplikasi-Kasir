@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('type_pelanggans', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->integer('persen_keuntungan');
-            $table->integer('active');
             $table->timestamps();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

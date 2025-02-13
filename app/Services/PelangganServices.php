@@ -36,7 +36,7 @@ class PelangganServices
             $data = [
                 'nama_pelanggan' => $data['nama_pelanggan'],
                 'alamat' => $data['alamat'],
-                'nomor_telepon' => $data['nomor_telepon'],
+                'nomor_telepon' => '62' . $data['nomor_telepon'],
                 'jenis_kelamin' => $data['jenis_kelamin'],
                 'type_pelanggan_id' => $data['type_pelanggan_id'],
                 'poin_member' => 0,
@@ -66,16 +66,17 @@ class PelangganServices
     {
         DB::beginTransaction();
         try {
-            $model = $this->pelangganRepository->findById($id);
-
-            $model->nama_pelanggan = $data['nama_pelanggan'];
-            $model->alamat = $data['alamat'];
-            $model->nomor_telepon = $data['nomor_telepon'];
-            $model->jenis_kelamin = $data['jenis_kelamin'];
-            $model->type_pelanggan_id = $data['type_pelanggan_id'];
-            $model->poin_member = $data['poin_member'];
-            $model->updated_at = Carbon::now();
-            $model->updated_by = Auth::user()->name;
+            
+            $data = [
+                'nama_pelanggan' => $data['nama_pelanggan'],
+                'alamat' => $data['alamat'],
+                'nomor_telepon' => $data['nomor_telepon'],
+                'jenis_kelamin' => $data['jenis_kelamin'],
+                'type_pelanggan_id' => $data['type_pelanggan_id'],
+                'poin_member' => $data['poin_member'],
+                'updated_at' => Carbon::now(),
+                'updated_by' => Auth::user()->name,
+            ];
 
             $this->pelangganRepository->update($id, $data);
 
@@ -112,7 +113,7 @@ class PelangganServices
         } catch (Exception $e) {
             DB::rollBack();
             return [
-                'message' => 'Pelanggan Gagal Dihapus',
+                'message' => 'Pelanggan Gagal Delete',
                 'errors' => $e->getMessage(),
                 'status' => $e->getCode(),
                 'success' => false,

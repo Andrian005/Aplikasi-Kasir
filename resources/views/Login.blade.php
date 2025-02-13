@@ -19,8 +19,14 @@
             <div class="col-md-6 p-4">
                 <div class="text-center">
                     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="img-fluid mb-3 w-25">
-                    <h2 class="h5">Aplikasi Kasir</h2>
+                    <h2 class="h5">Web Kasir</h2>
                 </div>
+
+                @if(session('error'))
+                    <div class="alert alert-danger fade show" role="alert">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
                 <form action="{{ route('auth') }}" method="post">
                     @csrf

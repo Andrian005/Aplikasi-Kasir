@@ -62,14 +62,17 @@ class UserServices
         DB::beginTransaction();
         try {
 
-            $model = $this->userRepository->findById($id);
+            $data = [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'role_id' => $data['role']
+            ];
 
-            $model->name = $data['name'];
-            $model->email = $data['email'];
-            $model->role_id = $data['role'];
-
-            if (!empty($data['password'])) {
-                $model->password = Hash::make($data['password']);
+            if (empty($data['password'])) {
+                unset($data['password']);
+                unset($data['confirmed_password']);
+            } else {
+                $data['password'] = Hash::make($data['password']);
             }
 
             $this->userRepository->update($id, $data);
@@ -82,7 +85,7 @@ class UserServices
         } catch (Exception $e) {
             DB::rollBack();
             return [
-                'message' => 'User Gagal di Tambah',
+                'message' => 'User Gagal di Update',
                 'errors' => $e->getMessage(),
                 'status' => $e->getCode(),
                 'success' => false,
@@ -106,7 +109,7 @@ class UserServices
         } catch (Exception $e) {
             DB::rollBack();
             return [
-                'message' => 'User Gagal Dihapus',
+                'message' => 'User Gagal Delete',
                 'errors' => $e->getMessage(),
                 'status' => $e->getCode(),
                 'success' => false,

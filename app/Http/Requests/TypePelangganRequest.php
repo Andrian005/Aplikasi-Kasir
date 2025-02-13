@@ -23,7 +23,6 @@ class TypePelangganRequest extends FormRequest
     {
         return [
             'type' => 'required',
-            'persen_keuntungan' => 'required|numeric',
         ];
     }
 
@@ -31,8 +30,6 @@ class TypePelangganRequest extends FormRequest
     {
         return [
             'type.required' => 'Type harus di isi',
-            'persen_keuntungan.required' => 'Keuntungan harus di isi',
-            'persen_keuntungan.numeric' => 'Harus berupa angka',
         ];
     }
 }

@@ -17,7 +17,7 @@ class PelangganRepository
     }
     public function getPelanggan()
     {
-        return $this->pelanggan->with('typePelanggan:id,type')->select('*')->get();
+        return $this->pelanggan->with('typePelanggan')->select('*')->get();
     }
 
     public function findById($id)

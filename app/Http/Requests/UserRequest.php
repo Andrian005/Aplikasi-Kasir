@@ -21,18 +21,25 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
+        if ($this->id) {
+            return [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'nullable|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/',
+                'confirmed_password' => 'nullable|required_with:password|same:password',
+                'role' => 'required',
+            ];
+        }
+
+        return [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/',
+            'confirmed_password' => 'required|same:password',
             'role' => 'required',
         ];
-
-        if($this->id){
-                unset($rules['password']);
-        }
-        return $rules;
     }
+
 
     public function messages(): array
     {
@@ -40,10 +47,13 @@ class UserRequest extends FormRequest
             'name.required' => 'Username harus di isi',
             'email.required' => 'Email harus di isi',
             'email.email' => 'Email harus sesuai format',
+            'email.unique' => 'Email sudah terdaftar',
             'role.required' => 'Role harus di isi',
             'password.required' => 'Password harus di isi',
             'password.min' => 'Password harus minimal 8 karakter',
             'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, dan angka',
+            'confirmed_password.required' => 'Confirmasi Password harus di isi',
+            'confirmed_password.same' => 'Confirmasi Password harus sama dengan password',
         ];
     }
 }

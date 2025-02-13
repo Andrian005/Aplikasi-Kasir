@@ -24,19 +24,19 @@ class PelangganController extends Controller
             return DataTables::of($model)->make(true);
         }
 
-        return view('management-pelanggan.pelanggan.index', compact('title'));
+        return view('pelanggan.index', compact('title'));
     }
 
     public function view($id)
     {
         $model = $this->pelangganServices->find($id);
-        return view('management-pelanggan.pelanggan.view', compact('model'));
+        return view('pelanggan.view', compact('model'));
     }
 
     public function create()
     {
         $model = $this->pelangganServices->getTypePelanggan();
-        return view('management-pelanggan.pelanggan.create', compact('model'));
+        return view('pelanggan.create', compact('model'));
     }
 
     public function store(PelangganRequest $request)
@@ -49,7 +49,7 @@ class PelangganController extends Controller
     {
         $data = $this->pelangganServices->find($id);
         $model = $this->pelangganServices->getTypePelanggan();
-        return view('management-pelanggan.pelanggan.edit', compact('data', 'model'));
+        return view('pelanggan.edit', compact('data', 'model'));
     }
 
     public function update(PelangganRequest $request, $id)

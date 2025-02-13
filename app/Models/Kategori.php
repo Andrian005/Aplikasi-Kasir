@@ -11,12 +11,12 @@ class Kategori extends Model
 
     protected $table = 'kategoris';
     protected $primary_key = 'id';
-    protected $fillable = ['kode_kategori', 'nama_kategori', 'active', 'created_at', 'updated_at', 'created_by', 'updated_by'];
+    protected $fillable = ['kode_kategori', 'nama_kategori', 'created_at', 'updated_at', 'created_by', 'updated_by'];
 
     public $timestamps = true;
 
-    public function scopeActive($query)
+    public function barang()
     {
-        return $query->where('active', 1);
+        return $this->hasMany(Barang::class, 'kategori_id', 'id');
     }
 }

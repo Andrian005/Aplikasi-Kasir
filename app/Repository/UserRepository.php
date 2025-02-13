@@ -18,7 +18,7 @@ class UserRepository
 
     public function getUser()
     {
-        return $this->user->with('role:id,role')->select('id', 'name', 'email', 'role_id')->get();
+        return $this->user->with('role')->select('id', 'name', 'email', 'role_id')->get();
     }
 
     public function findById($id)

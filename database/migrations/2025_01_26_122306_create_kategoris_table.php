@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('kode_kategori');
             $table->string('nama_kategori');
-            $table->integer('active');
             $table->timestamps();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

@@ -22,7 +22,7 @@ class KategoriRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kode_kategori' => 'required|unique:kategoris,kode_kategori',
+            'kode_kategori' => 'required|unique:kategoris,kode_kategori,' . $this->route('id'),
             'nama_kategori' => 'required',
         ];
     }

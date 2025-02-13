@@ -18,24 +18,24 @@ class KategoriController extends Controller
 
     public function index(Request $request)
     {
-        $title = 'Kategori Barang';
+        $title = 'Data Kategori';
         if ($request->ajax()) {
             $model = $this->kategoriServices->index();
             return DataTables::of($model)->make(true);
         }
 
-        return view('manajement-barang.kategori.index', compact('title'));
+        return view('list-data.kategori.index', compact('title'));
     }
 
     public function view($id)
     {
         $model = $this->kategoriServices->find($id);
-        return view('manajement-barang.kategori.view', compact('model'));
+        return view('list-data.kategori.view', compact('model'));
     }
 
     public function create()
     {
-        return view('manajement-barang.kategori.create');
+        return view('list-data.kategori.create');
     }
 
     public function store(KategoriRequest $request)
@@ -47,7 +47,7 @@ class KategoriController extends Controller
     public function edit($id)
     {
         $data = $this->kategoriServices->find($id);
-        return view('manajement-barang.kategori.edit', compact('data'));
+        return view('list-data.kategori.edit', compact('data'));
     }
 
     public function update(KategoriRequest $request, $id)

@@ -63,7 +63,7 @@
                 url: '{{ route('user-management.user.view') }}/' + id,
                 success: function (response) {
                     bootbox.dialog({
-                        title: 'Detail Role',
+                        title: 'Detail User',
                         message: response,
                     });
                 },

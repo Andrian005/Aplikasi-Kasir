@@ -65,8 +65,6 @@
 
                 </section>
             </div>
-
-            @include('layouts.footer')
         </div>
     </div>
 
@@ -106,8 +104,8 @@
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('assets/js/page/index-0.js') }}"></script>
-    <script src="{{ asset('assets/js/build.js') }}"></script>
     <script src="{{ asset('assets/js/page/forms-advanced-forms.js') }}"></script>
+    <script src="{{ asset('assets/js/build.js') }}"></script>
 
     <!-- Template JS File -->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>

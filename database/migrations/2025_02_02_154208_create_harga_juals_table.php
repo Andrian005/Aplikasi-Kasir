@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('harga_juals', function (Blueprint $table) {
             $table->id();
             $table->integer('barang_id');
+            $table->decimal('harga_jual', 20, 0);
             $table->integer('type_pelanggan_id');
             $table->timestamps();
             $table->string('created_by')->nullable();
