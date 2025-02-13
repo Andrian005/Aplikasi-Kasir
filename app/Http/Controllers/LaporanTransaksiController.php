@@ -8,6 +8,7 @@ use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use App\Models\DetailTransaksi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LaporanTransaksiExport;
 use Yajra\DataTables\Facades\DataTables;
@@ -73,33 +74,55 @@ class LaporanTransaksiController extends Controller
     public function excel(Request $request)
     {
         $dateRange = $request->get('date_range');
-
+    
         if ($dateRange) {
             $dates = explode(' - ', $dateRange);
             $dateRange = $dates;
         }
-
-        return Excel::download(new LaporanTransaksiExport($dateRange), 'laporan-transaksi.xlsx');
+    
+        $filename = 'laporan-transaksi.xlsx';
+    
+        activity()
+            ->performedOn(new Transaksi)
+            ->causedBy(Auth::user()->name)
+            ->withProperties([
+                'date_range' => $dateRange,
+                'filename'   => $filename,
+            ])
+            ->log('Export laporan transaksi ke Excel');
+    
+        return Excel::download(new LaporanTransaksiExport($dateRange), $filename);
     }
-
+    
     public function pdf(Request $request)
     {
         $dateRangeInput = $request->get('date_range');
         $query = Transaksi::with(['detailTransaksi', 'pelanggan', 'typePelanggan']);
-
+    
         $dateRange = null;
         if ($dateRangeInput) {
             $dates = explode(' - ', $dateRangeInput);
             if (count($dates) == 2) {
                 $startDate = $dates[0];
-                $endDate = $dates[1];
+                $endDate   = $dates[1];
                 $query->whereBetween('created_at', [$startDate, $endDate]);
                 $dateRange = [$startDate, $endDate];
             }
         }
         $transaksis = $query->get();
-
+    
+        $filename = 'laporan-transaksi.pdf';
+    
+        activity()
+            ->performedOn(new Transaksi)
+            ->causedBy(Auth::user()->name)
+            ->withProperties([
+                'date_range' => $dateRange,
+                'filename'   => $filename,
+            ])
+            ->log('Export laporan transaksi ke PDF');
+    
         $pdf = PDF::loadView('laporan-transaksi.pdf', compact('transaksis', 'dateRange'));
-        return $pdf->download('laporan-transaksi.pdf');
+        return $pdf->download($filename);
     }
 }
