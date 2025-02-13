@@ -4,19 +4,16 @@ namespace App\Repository;
 
 use App\Models\Barang;
 use App\Models\Kategori;
-use App\Models\HargaJual;
 use Illuminate\Support\Facades\DB;
 
 class BarangRepository
 {
     protected $barang;
-    protected $hargaJual;
     protected $kategori;
 
-    public function __construct(Barang $barang, HargaJual $hargaJual, Kategori $kategori)
+    public function __construct(Barang $barang, Kategori $kategori)
     {
         $this->barang = $barang;
-        $this->hargaJual = $hargaJual;
         $this->kategori = $kategori;
     }
 
@@ -44,11 +41,6 @@ class BarangRepository
     public function storeBarang($data)
     {
         return $this->barang::create($data);
-    }
-
-    public function storeHargaJual($data)
-    {
-        return $this->hargaJual::create($data);
     }
 
     public function update($id, $data)

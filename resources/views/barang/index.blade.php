@@ -16,8 +16,6 @@
                             <tr>
                                 <th>Kode</th>
                                 <th>Barang</th>
-                                <th>Tanggal Pembelian</th>
-                                <th>Tanggal Kadaluarsa</th>
                                 <th>Stok</th>
                                 <th>HPP</th>
                                 <th>Kategori</th>
@@ -45,8 +43,6 @@
                 columns: [
                     { data: 'kode_barang', name: 'kode_barang' },
                     { data: 'nama_barang', name: 'nama_barang' },
-                    { data: 'tgl_pembelian', name: 'tgl_pembelian' },
-                    { data: 'tgl_kadaluarsa', name: 'tgl_kadaluarsa' },
                     { data: 'stok', name: 'stok' },
                     { data: 'harga_beli', name: 'harga_beli' },
                     { data: 'kategori.nama_kategori', name: 'kategori.nama_kategori' },

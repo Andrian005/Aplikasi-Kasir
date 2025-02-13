@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\Pelanggan;
 use App\Models\Transaksi;
-use Illuminate\Http\Request;
 use App\Services\BarangServices;
 use Illuminate\Support\Facades\DB;
 
