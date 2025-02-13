@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->text('alamat');
             $table->string('nomor_telepon');
             $table->string('jenis_kelamin');
-            $table->unsignedBigInteger('type_pelanggan_id');
+            $table->unsignedBigInteger('type_pelanggan_id')->nullable();
             $table->integer('poin_member');
             $table->timestamps();
             $table->string('created_by')->nullable();

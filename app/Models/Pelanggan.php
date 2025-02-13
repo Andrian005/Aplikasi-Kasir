@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\TypePelanggan;
+use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pelanggan extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = 'pelanggans';
     protected $primary_key = 'id';
@@ -27,5 +31,21 @@ class Pelanggan extends Model
     public function typePelanggan()
     {
         return $this->belongsTo(TypePelanggan::class, 'type_pelanggan_id', 'id');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'nama_pelanggan',
+                'alamat',
+                'nomor_telepon',
+                'jenis_kelamin',
+                'type_pelanggan_id',
+                'poin_member',
+            ])
+            ->useLogName(Auth::user()->name)
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 }

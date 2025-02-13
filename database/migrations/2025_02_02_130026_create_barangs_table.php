@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->decimal('harga_beli', 20, 0);
             $table->integer('stok_minimal');
             $table->integer('stok');
-            $table->unsignedBigInteger('kategori_id');
+            $table->unsignedBigInteger('kategori_id')->nullable();
             $table->timestamps();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

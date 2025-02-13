@@ -21,21 +21,11 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->id) {
-            return [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'nullable|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/',
-                'confirmed_password' => 'nullable|required_with:password|same:password',
-                'role' => 'required',
-            ];
-        }
-
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/',
-            'confirmed_password' => 'required|same:password',
+            'email' => 'required|email|unique:users,email,' . $this->id,
+            'password' => 'nullable|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/',
+            'confirmed_password' => 'nullable|required_with:password|same:password',
             'role' => 'required',
         ];
     }

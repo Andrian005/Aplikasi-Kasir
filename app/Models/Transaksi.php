@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Pelanggan;
+use App\Models\TypePelanggan;
+use App\Models\DetailTransaksi;
+use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Transaksi extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = 'transaksis';
     protected $primary_key = 'id';
@@ -47,4 +53,24 @@ class Transaksi extends Model
             ->select(['id', 'type']);
     }
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'invoice',
+                'kasir_id',
+                'pelanggan_id',
+                'total_belanja',
+                'diskon',
+                'ppn',
+                'total_akhir',
+                'poin_member_didapat',
+                'poin_member_digunakan',
+                'pembayaran',
+                'kembalian',
+            ])
+            ->useLogName(Auth::user()->name)
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 }
