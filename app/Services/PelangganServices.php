@@ -66,11 +66,11 @@ class PelangganServices
     {
         DB::beginTransaction();
         try {
-            
+
             $data = [
                 'nama_pelanggan' => $data['nama_pelanggan'],
                 'alamat' => $data['alamat'],
-                'nomor_telepon' => $data['nomor_telepon'],
+                'nomor_telepon' => '62' . $data['nomor_telepon'],
                 'jenis_kelamin' => $data['jenis_kelamin'],
                 'type_pelanggan_id' => $data['type_pelanggan_id'],
                 'poin_member' => $data['poin_member'],

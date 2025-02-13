@@ -33,7 +33,7 @@
                                     <th>Diskon</th>
                                     <th>Poin yang Digunakan</th>
                                     <th>Total Harga</th>
-                                    <th>Aksi</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                         </table>

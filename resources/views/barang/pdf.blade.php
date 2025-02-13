@@ -50,7 +50,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 10px
         }
 
         table thead {
@@ -103,14 +103,15 @@
                 <th>Kode Barang</th>
                 <th>Nama Barang</th>
                 <th>Kategori</th>
+                <th>Stok Minimal</th>
+                <th>Stok</th>
                 <th>Tanggal Pembelian</th>
                 <th>Tanggal Kadaluarsa</th>
                 <th>HPP</th>
                 <th>Harga Jual 1</th>
                 <th>Harga Jual 2</th>
                 <th>Harga Jual 3</th>
-                <th>Stok Minimal</th>
-                <th>Stok</th>
+
             </tr>
         </thead>
         <tbody>
@@ -119,6 +120,8 @@
                     <td style="text-align: center;">{{ $barangs->kode_barang }}</td>
                     <td style="text-align: center;">{{ $barangs->nama_barang }}</td>
                     <td style="text-align: center;">{{ $barangs->kategori->nama_kategori }}</td>
+                    <td style="text-align: center;">{{ $barangs->stok_minimal }}</td>
+                    <td style="text-align: center;">{{ $barangs->stok }}</td>
                     <td style="text-align: center;">
                         {{ $barangs->tgl_pembelian ? date('d/m/Y', strtotime($barangs->tgl_pembelian)) : '-' }}</td>
                     <td style="text-align: center;">
@@ -127,8 +130,6 @@
                     <td style="text-align: center;">Rp {{ number_format($barangs->harga_jual_1, 0, ',', '.') }}</td>
                     <td style="text-align: center;">Rp {{ number_format($barangs->harga_jual_2, 0, ',', '.') }}</td>
                     <td style="text-align: center;">Rp {{ number_format($barangs->harga_jual_3, 0, ',', '.') }}</td>
-                    <td style="text-align: center;">{{ $barangs->stok_minimal }}</td>
-                    <td style="text-align: center;">{{ $barangs->stok }}</td>
                 </tr>
             @endforeach
         </tbody>

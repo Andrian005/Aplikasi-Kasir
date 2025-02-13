@@ -47,7 +47,7 @@
     <select name="type_pelanggan_id" id="type_pelanggan_id" class="form-control select2">
         <option value="">Pilih Type Pelanggan</option>
         @foreach ($model as $type)
-            <option value="{{ $type->id }}" {{ $data->type_pelanggan_id ?? '' == $type->id ? 'selected' : '' }}
+            <option value="{{ $type->id }}" @selected(old('type_pelanggan_id', $data->type_pelanggan_id ?? '') == $type->id) }}
                 name="type_pelanggan_id">{{ $type->type ?? '' }}</option>
         @endforeach
     </select>

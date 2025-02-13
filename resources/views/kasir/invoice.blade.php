@@ -29,10 +29,10 @@
                 <div class="col-sm-6">
                     <h5>Pelanggan</h5>
                     @if($transaksi->pelanggan)
-                        <p class="mb-0"><strong>Nama:</strong> {{ $transaksi->pelanggan->nama_pelanggan }}</p>
-                        <p class="mb-0"><strong>Alamat:</strong> {{ $transaksi->pelanggan->alamat ?? '-' }}</p>
-                        <p class="mb-0"><strong>Telepon:</strong> {{ $transaksi->pelanggan->nomor_telepon ?? '-' }}</p>
-                        <p class="mb-0"><strong>Poin Member:</strong> {{ $transaksi->pelanggan->poin_member ?? '-' }}</p>
+                        <p class="mb-0"><strong>Nama :</strong> {{ $transaksi->pelanggan->nama_pelanggan }}</p>
+                        <p class="mb-0"><strong>Alamat :</strong> {{ $transaksi->pelanggan->alamat ?? '-' }}</p>
+                        <p class="mb-0"><strong>Telepon :</strong> +{{ $transaksi->pelanggan->nomor_telepon ?? '-' }}</p>
+                        <p class="mb-0"><strong>Poin Member :</strong> {{ $transaksi->pelanggan->poin_member ?? '-' }}</p>
                     @else
                         <p class="mb-0">Umum</p>
                     @endif

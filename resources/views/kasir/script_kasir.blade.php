@@ -95,6 +95,9 @@
     const formatBarangOption = formatOptionFunction(option => {
         const stok = parseInt($(option.element).data('stok'));
         const stokMin = parseInt($(option.element).data('stok_minimal'));
+        if (stok === 0) {
+            return "Stok Habis";
+        }
         return "Stok " + stok + (stok < stokMin ? " (Stok Menipis)" : "");
     });
 
@@ -299,14 +302,24 @@
                 if ($row.length) {
                     let currentQuantity = parseInt($row.find('.jumlah-barang input').val()) || 0;
                     const newQuantity = currentQuantity + jumlahInput;
+                    if (stok === 0) {
+                        alertCustom("Stok barang habis!");
+                        return;
+                    }
+
                     if (newQuantity > stok) {
-                        alertCustom("Stok barang tidak mencukupi!");
+                        alertCustom("Jumlah pembelian melebihi stok!");
                         return;
                     }
                     updateRowQuantity($row, newQuantity, hargaBaru);
                 } else {
+                    if (stok === 0) {
+                        alertCustom("Stok barang habis!");
+                        return;
+                    }
+
                     if (jumlahInput > stok) {
-                        alertCustom("Stok barang tidak mencukupi!");
+                        alertCustom("Jumlah pembelian melebihi stok!");
                         return;
                     }
                     $('#data-pembelanjaan').find('.data-kosong').hide();

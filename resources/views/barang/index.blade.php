@@ -6,8 +6,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="text-left">
-                        <a href="{{ route('barang.export-excel') }}" id="exportExcel"
-                            class="btn btn-success">Export Excel</a>
+                        <a href="{{ route('barang.export-excel') }}" id="exportExcel" class="btn btn-success">Export
+                            Excel</a>
                         <a href="{{ route('barang.export-pdf') }}" id="exportPdf" class="btn btn-primary">Export
                             PDF</a>
                     </div>
@@ -20,11 +20,13 @@
                         <table class="table table-striped w-100" id="table-1">
                             <thead>
                                 <tr>
-                                    <th>Kode</th>
-                                    <th>Barang</th>
-                                    <th>Stok</th>
+                                    <th>Nama Barang</th>
+                                    <th>Kategori Barang</th>
+                                    <th>Sisa Stok</th>
                                     <th>HPP</th>
-                                    <th>Kategori</th>
+                                    <th>Harga Jual 1</th>
+                                    <th>Harga Jual 2</th>
+                                    <th>Harga Jual 3</th>
                                     <th>Status</th>
                                     <th></th>
                                 </tr>
@@ -47,11 +49,25 @@
                 scrollX: true,
                 ajax: '',
                 columns: [
-                    { data: 'kode_barang', name: 'kode_barang' },
                     { data: 'nama_barang', name: 'nama_barang' },
-                    { data: 'stok', name: 'stok' },
-                    { data: 'harga_beli', name: 'harga_beli' },
                     { data: 'kategori.nama_kategori', name: 'kategori.nama_kategori' },
+                    { data: 'stok', name: 'stok' },
+                    {
+                        data: 'harga_beli', name: 'harga_beli',
+                        render: $.fn.dataTable.render.number(',', '.', 0, 'Rp ')
+                    },
+                    {
+                        data: 'harga_jual_1', name: 'harga_jual_1',
+                        render: $.fn.dataTable.render.number(',', '.', 0, 'Rp ')
+                    },
+                    {
+                        data: 'harga_jual_2', name: 'harga_jual_2',
+                        render: $.fn.dataTable.render.number(',', '.', 0, 'Rp ')
+                    },
+                    {
+                        data: 'harga_jual_3', name: 'harga_jual_3',
+                        render: $.fn.dataTable.render.number(',', '.', 0, 'Rp ')
+                    },
                     { data: 'status', name: 'status' },
                     {
                         data: 'id', name: '_', orderable: false, searchable: false, class: 'text-right nowrap',
@@ -71,14 +87,6 @@
                     }]
             });
         });
-
-        function updateExportLink() {
-            var baseUrlExcel = "{{ route('laporan-transaksi.export-excel') }}";
-            var baseUrlPdf = "{{ route('laporan-transaksi.export-pdf') }}";
-
-            $('#exportExcel').attr('href', baseUrlExcel);
-            $('#exportPdf').attr('href', baseUrlPdf);
-        }
 
         function view(id) {
             $.ajax({

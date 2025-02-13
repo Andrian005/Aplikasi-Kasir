@@ -96,6 +96,8 @@
         <h2>Laporan Transaksi</h2>
         @if(isset($dateRange) && count($dateRange) == 2)
             <p class="periode"><strong>Periode:</strong> {{ $dateRange[0] }} s/d {{ $dateRange[1] }}</p>
+        @else
+            <p class="periode">Semua Periode</p>
         @endif
     </div>
 
@@ -132,10 +134,10 @@
         <tfoot>
             <tr>
                 <td colspan="4" style="text-align: right;">Grand Total</td>
-                <td>Rp {{ number_format($transaksis->sum('total_belanja'), 0, ',', '.') }}</td>
-                <td>Rp {{ number_format($transaksis->sum('diskon'), 0, ',', '.') }}</td>
-                <td>Rp {{ number_format($transaksis->sum('poin_member_digunakan'), 0, ',', '.') }}</td>
-                <td>Rp {{ number_format($transaksis->sum('total_akhir'), 0, ',', '.') }}</td>
+                <td style="text-align: center;">Rp {{ number_format($transaksis->sum('total_belanja'), 0, ',', '.') }}</td>
+                <td style="text-align: center;">Rp {{ number_format($transaksis->sum('diskon'), 0, ',', '.') }}</td>
+                <td style="text-align: center;">Rp {{ number_format($transaksis->sum('poin_member_digunakan'), 0, ',', '.') }}</td>
+                <td style="text-align: center;">Rp {{ number_format($transaksis->sum('total_akhir'), 0, ',', '.') }}</td>
             </tr>
         </tfoot>
     </table>

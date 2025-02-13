@@ -76,9 +76,9 @@ class BarangServices
         try {
 
             $hpp = str_replace(',', '', $data['harga_beli']);
-            $hj1 = str_replace('.', '', $data['harga_jual_1']);
-            $hj2 = str_replace('.', '', $data['harga_jual_2']);
-            $hj3 = str_replace('.', '', $data['harga_jual_3']);
+            $hj1 = str_replace(['.', ','], '', $data['harga_jual_1']);
+            $hj2 = str_replace(['.', ','], '', $data['harga_jual_2']);
+            $hj3 = str_replace(['.', ','], '', $data['harga_jual_3']);
             $data = [
                 'kode_barang' => $data['kode_barang'],
                 'nama_barang' => $data['nama_barang'],

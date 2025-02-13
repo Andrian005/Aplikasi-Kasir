@@ -31,7 +31,7 @@ class KategoriRequest extends FormRequest
     {
         return [
             'kode_kategori.required' => 'Kode Kategori harus diisi',
-            'kode_kategori.unique' => 'Kode Kategori tidak boleh sama',
+            'kode_kategori.unique' => 'Kode Kategori sudah terdaftar',
             'nama_kategori.required' => 'Kategori harus diisi',
         ];
     }

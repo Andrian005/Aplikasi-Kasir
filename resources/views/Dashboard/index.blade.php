@@ -58,22 +58,24 @@
         </div>
         <div class="col-lg-6 col-md-12 col-12 col-sm-12">
             <div class="card">
-                <div class="card-header">
-                    <h4>Monitoring Stok Barang</h4>
-                    <div class="card-header-action">
-                        <a href="{{ route('barang.index') }}" class="btn btn-danger">View More <i
-                                class="fas fa-chevron-right"></i></a>
+                @if (Auth::user()->role->role == 'Administrator')
+                    <div class="card-header">
+                        <h4>Monitoring Stok Barang</h4>
+                        <div class="card-header-action">
+                            <a href="{{ route('barang.index') }}" class="btn btn-danger">View More <i
+                                    class="fas fa-chevron-right"></i></a>
+                        </div>
                     </div>
-                </div>
+                @endif
                 <div class="card-body p-0">
                     <div class="table-responsive table-invoice">
                         <table class="table table-striped" id="table">
                             <tr>
-                                <th>Code</th>
+                                <th>Kode</th>
                                 <th>Nama Barang</th>
                                 <th>Status</th>
-                                <th>Date Expired</th>
-                                <th>Action</th>
+                                <th>Tanggal Kadaluarsa</th>
+                                <th></th>
                             </tr>
                         </table>
                     </div>
@@ -125,16 +127,16 @@
                 let html = $("#table");
                 data.forEach(function (item) {
                     let row = `
-                        <tr>
-                            <td>${item.kode_barang}</td>
-                                <td>${item.nama_barang}</td>
-                                <td><span class="badge ${item.status_stok == 'Stok Menipis' ? 'badge-warning' : 'badge-danger'}">${item.status_stok}</td>
-                                <td>${item.tgl_kadaluarsa}</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm" onclick="detail(${item.id})">Detail</button>
-                                </td>
-                        </tr>
-                        `;
+                            <tr>
+                                <td>${item.kode_barang}</td>
+                                    <td>${item.nama_barang}</td>
+                                    <td><span class="badge ${item.status_stok == 'Stok Menipis' ? 'badge-warning' : 'badge-danger'}">${item.status_stok}</td>
+                                    <td>${item.tgl_kadaluarsa}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" onclick="detail(${item.id})">Detail</button>
+                                    </td>
+                            </tr>
+                            `;
                     html.append(row);
                 });
             },

@@ -16,6 +16,7 @@
                                 <th>Alamat</th>
                                 <th>Nomor Telepon</th>
                                 <th>Jenis Kelamin</th>
+                                <th>Poin</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -46,6 +47,7 @@
                             return data === 'L' ? 'Laki-laki' : 'Perempuan';
                         }
                     },
+                    { data: 'poin_member', name: 'poin_member' },
                     {
                         data: 'id', name: '_', orderable: false, searchable: false, class: 'text-right nowrap',
                         render: function (data, type, row) {

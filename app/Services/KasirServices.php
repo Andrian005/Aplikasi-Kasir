@@ -49,6 +49,7 @@ class KasirServices
                 'poin_member_digunakan' => $data['poin_digunakan'],
                 'pembayaran' => $data['pembayaran'],
                 'kembalian' => $data['kembalian'],
+                'created_at' => Carbon::now(),
                 'created_by' => Auth::user()->name,
             ];
 

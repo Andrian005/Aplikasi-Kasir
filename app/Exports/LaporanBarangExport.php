@@ -19,7 +19,6 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, WithEvents, WithCustomStartCell, ShouldAutoSize, WithStyles, WithColumnFormatting
 {
-
     public function collection()
     {
         return Barang::with('kategori')->get();
@@ -31,14 +30,14 @@ class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, 
             'Kode Barang',
             'Nama Barang',
             'Kategori',
+            'Stok Minimal',
+            'Stok',
             'Tanggal Pembelian',
             'Tanggal Kadaluarsa',
             'HPP',
             'Harga Jual 1',
             'Harga Jual 2',
             'Harga Jual 3',
-            'Stok Minimal',
-            'Stok',
         ];
     }
 
@@ -48,16 +47,16 @@ class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, 
             $barang->kode_barang,
             $barang->nama_barang,
             $barang->kategori->nama_kategori ?? '-',
+            $barang->stok_minimal === 0 ? '0' : $barang->stok_minimal,
+            $barang->stok === 0 ? '0' : $barang->stok,
             $barang->tgl_pembelian ? date('d/m/Y', strtotime($barang->tgl_pembelian)) : '',
             $barang->tgl_kadaluarsa ? date('d/m/Y', strtotime($barang->tgl_kadaluarsa)) : '',
             $barang->harga_beli,
             $barang->harga_jual_1,
             $barang->harga_jual_2,
             $barang->harga_jual_3,
-            $barang->stok_minimal,
-            $barang->stok,
         ];
-    }
+    }    
 
     public function startCell(): string
     {
@@ -178,10 +177,10 @@ class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, 
     public function columnFormats(): array
     {
         return [
-            'E' => '"Rp " #,##0',
-            'F' => '"Rp " #,##0',
-            'G' => '"Rp " #,##0',
             'H' => '"Rp " #,##0',
+            'I' => '"Rp " #,##0',
+            'J' => '"Rp " #,##0',
+            'K' => '"Rp " #,##0',
         ];
     }
 }

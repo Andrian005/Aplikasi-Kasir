@@ -30,7 +30,7 @@ class DiskonRequest extends FormRequest
             'min_diskon' => 'required|min:0',
             'max_diskon' => 'required|min:0|gte:min_diskon',
             'type_pelanggan_id' => 'required|exists:type_pelanggans,id',
-            'tgl_mulai' => 'required|date|date_format:Y-m-d|after_or_equal:today',
+            'tgl_mulai' => 'required|date|date_format:Y-m-d',
             'tgl_berakhir' => 'required|date|date_format:Y-m-d|after:tgl_mulai',
         ];
     }
@@ -55,7 +55,6 @@ class DiskonRequest extends FormRequest
             'tgl_mulai.required' => 'Tanggal mulai wajib diisi.',
             'tgl_mulai.date' => 'Tanggal mulai tidak valid.',
             'tgl_mulai.date_format' => 'Format tanggal mulai tidak sesuai.',
-            'tgl_mulai.after_or_equal' => 'Tanggal mulai tidak boleh sebelum hari ini.',
             'tgl_berakhir.required' => 'Tanggal berakhir wajib diisi.',
             'tgl_berakhir.date' => 'Tanggal berakhir tidak valid.',
             'tgl_berakhir.date_format' => 'Format tanggal berakhir tidak sesuai.',

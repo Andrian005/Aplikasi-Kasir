@@ -10,6 +10,11 @@
         <td style="border: 0;">{{ $model->nama_barang }}</td>
     </tr>
     <tr>
+        <th style="border: 0; width: 120px">Kategori</th>
+        <td style="border: 0; width: 1px">:</td>
+        <td style="border: 0;">{{ $model->kategori->nama_kategori }}</td>
+    </tr>
+    <tr>
         <th style="border: 0; width: 120px">Tanggal Pembelian</th>
         <td style="border: 0; width: 1px">:</td>
         <td style="border: 0;">{{ $model->tgl_pembelian }}</td>
@@ -43,11 +48,6 @@
         <th style="border: 0; width: 120px">Harga Jual 3</th>
         <td style="border: 0; width: 1px">:</td>
         <td style="border: 0;">Rp. {{ number_format( $model->harga_jual_3, 0, ',', '.') }}</td>
-    </tr>
-    <tr>
-        <th style="border: 0; width: 120px">Kategori</th>
-        <td style="border: 0; width: 1px">:</td>
-        <td style="border: 0;">{{ $model->kategori->nama_kategori }}</td>
     </tr>
     <tr>
         <th style="border: 0; width: 120px">Status</th>

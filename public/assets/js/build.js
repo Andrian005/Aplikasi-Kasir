@@ -71,9 +71,13 @@ $.fn.Form = function () {
                 delimiter: "-",
                 blocks: [10]
             });
-
+            $(this).on("keydown", function (e) {
+                if (e.keyCode === 32) {
+                    e.preventDefault();
+                }
+            });
             $(this).on("input", function () {
-                $(this).val($(this).val().toUpperCase());
+                $(this).val($(this).val().replace(/\s/g, '').toUpperCase());
             });
         });
     });
