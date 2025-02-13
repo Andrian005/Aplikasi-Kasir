@@ -9,7 +9,6 @@ use Illuminate\Support\Carbon;
 use App\Services\BarangServices;
 use App\Exports\LaporanBarangExport;
 use App\Http\Requests\BarangRequest;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -28,11 +27,11 @@ class BarangController extends Controller
         if ($request->ajax()) {
             $model = $this->barangServices->index();
             return DataTables::of($model)
-                ->addColumn('status', function ($row) {
-                    return Carbon::now()->gt($row->tgl_kadaluarsa) ? '<div class="badge badge-danger">Kadaluarsa</div>' : '<div class="badge badge-success">Masih Berlaku</div>';
-                })
-                ->rawColumns(['status'])
-                ->make(true);
+            ->addColumn('status', function ($row) {
+                return Carbon::now()->gt($row->tgl_kadaluarsa) ? '<div class="badge badge-danger">Kadaluarsa</div>' : '<div class="badge badge-success">Masih Berlaku</div>';
+            })
+            ->rawColumns(['status'])
+            ->make(true);
         }
         return view('barang.index', compact('title'));
     }
@@ -78,29 +77,14 @@ class BarangController extends Controller
 
     public function excel()
     {
-        $filename = 'laporan-barang.xlsx';
-
-        activity()
-            ->performedOn(new Barang)
-            ->causedBy(Auth::user()->name)
-            ->withProperties(['filename' => $filename])
-            ->log('Export laporan barang ke Excel');
-
-        return Excel::download(new LaporanBarangExport(), $filename);
+        return Excel::download(new LaporanBarangExport(), 'laporan-barang.xlsx');
     }
 
     public function pdf()
     {
-        $filename = 'laporan-barang.pdf';
         $barang = Barang::with('kategori')->get();
 
-        activity()
-            ->performedOn(new Barang)
-            ->causedBy(Auth::user()->name)
-            ->withProperties(['filename' => $filename])
-            ->log('Export laporan barang ke PDF');
-
         $pdf = PDF::loadView('barang.pdf', compact('barang'));
-        return $pdf->download($filename);
+        return $pdf->download('laporan-barang.pdf');
     }
 }

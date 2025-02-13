@@ -143,8 +143,8 @@
                                     </button>`;
                             if (row.role === 'Administrator') {
                                 html += `<button onclick="destroy(${data})" class="btn btn-danger btn-icon mr-2" title="Hapus">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>`;
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>`;
                             }
                             html += `</div>`;
                             return html;
