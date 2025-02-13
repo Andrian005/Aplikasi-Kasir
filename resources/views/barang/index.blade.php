@@ -27,7 +27,7 @@
                                     <th>Harga Jual 1</th>
                                     <th>Harga Jual 2</th>
                                     <th>Harga Jual 3</th>
-                                    <th>Status</th>
+                                    <th>Status Kadaluarsa</th>
                                     <th></th>
                                 </tr>
                             </thead>

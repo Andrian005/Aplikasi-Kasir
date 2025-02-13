@@ -50,7 +50,7 @@
         <td style="border: 0;">Rp. {{ number_format( $model->harga_jual_3, 0, ',', '.') }}</td>
     </tr>
     <tr>
-        <th style="border: 0; width: 120px">Status</th>
+        <th style="border: 0; width: 120px">Status Kadaluarsa</th>
         <td style="border: 0; width: 1px">:</td>
         <td style="border: 0;"><div class="badge {{ $model->status == 'Masih Berlaku' ? 'badge-success' : 'badge-danger' }}">{{ $model->status }}</div></td>
     </tr>
