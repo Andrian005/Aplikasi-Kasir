@@ -1,34 +1,40 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="text-right mb-3">
-                    <a href="{{ route('barang.create') }}" class="btn btn-primary">
-                        Tambah
-                    </a>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-striped w-100" id="table-1">
-                        <thead>
-                            <tr>
-                                <th>Kode</th>
-                                <th>Barang</th>
-                                <th>Stok</th>
-                                <th>HPP</th>
-                                <th>Kategori</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-left">
+                        <a href="{{ route('barang.export-excel') }}" id="exportExcel"
+                            class="btn btn-success">Export Excel</a>
+                        <a href="{{ route('barang.export-pdf') }}" id="exportPdf" class="btn btn-primary">Export
+                            PDF</a>
+                    </div>
+                    <div class="text-right mb-3">
+                        <a href="{{ route('barang.create') }}" class="btn btn-primary">
+                            Tambah
+                        </a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped w-100" id="table-1">
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Barang</th>
+                                    <th>Stok</th>
+                                    <th>HPP</th>
+                                    <th>Kategori</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @push('page_script')
@@ -65,6 +71,14 @@
                     }]
             });
         });
+
+        function updateExportLink() {
+            var baseUrlExcel = "{{ route('laporan-transaksi.export-excel') }}";
+            var baseUrlPdf = "{{ route('laporan-transaksi.export-pdf') }}";
+
+            $('#exportExcel').attr('href', baseUrlExcel);
+            $('#exportPdf').attr('href', baseUrlPdf);
+        }
 
         function view(id) {
             $.ajax({

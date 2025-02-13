@@ -15,7 +15,7 @@
                         </div>
                         <div class="col-md-4 text-md-right mt-2 mt-md-0">
                             <a href="{{ route('laporan-transaksi.export-excel') }}" id="exportExcel"
-                                class="btn btn-primary">Export Excel</a>
+                                class="btn btn-success">Export Excel</a>
                             <a href="{{ route('laporan-transaksi.export-pdf') }}" id="exportPdf"
                                 class="btn btn-primary">Export PDF</a>
                         </div>
@@ -86,7 +86,7 @@
                 serverSide: true,
                 scrollX: true,
                 ajax: {
-                    url: "", // Sesuaikan URL untuk data ajax
+                    url: "",
                     data: function (d) {
                         d.date_range = $('#daterange').val();
                     }
@@ -140,11 +140,11 @@
                             let html = `<div class="d-flex">`;
                             html += `<button onclick="view(${data})" class="btn btn-info btn-icon mr-2" title="Lihat">
                                         <i class="fas fa-eye"></i>
-                                     </button>`;
+                                    </button>`;
                             if (row.role === 'Administrator') {
                                 html += `<button onclick="destroy(${data})" class="btn btn-danger btn-icon mr-2" title="Hapus">
                                             <i class="far fa-trash-alt"></i>
-                                         </button>`;
+                                        </button>`;
                             }
                             html += `</div>`;
                             return html;

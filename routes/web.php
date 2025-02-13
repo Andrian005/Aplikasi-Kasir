@@ -78,6 +78,8 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::get('edit/{id?}', [BarangController::class, 'edit'])->name('barang.edit');
         Route::post('update/{id?}', [BarangController::class, 'update'])->name('barang.update');
         Route::get('delete/{id?}', [BarangController::class, 'delete'])->name('barang.delete');
+        Route::get('export-excel', [BarangController::class, 'excel'])->name('barang.export-excel');
+        Route::get('export-pdf', [BarangController::class, 'pdf'])->name('barang.export-pdf');
     });
 
     Route::prefix('pelanggan')->middleware('role')->group(function () {
