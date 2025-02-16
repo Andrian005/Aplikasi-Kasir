@@ -61,7 +61,7 @@ class KasirRepository
 
     public function storeDetailTransaksi($data)
     {
-        return $this->detailTransaksi::insert($data);
+        return $this->detailTransaksi::create($data);
     }
 
     public function updateBarang($id, $data)

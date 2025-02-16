@@ -94,24 +94,25 @@
             <p>Alamat Toko / Kontak</p>
         </div>
         <h2>Laporan Barang</h2>
-        <p class="periode">Seluruh Data Barang</p>
+        @if(isset($dateRange) && count($dateRange) == 2)
+            <p class="periode"><strong>Periode:</strong> {{ $dateRange[0] }} s/d {{ $dateRange[1] }}</p>
+        @else
+            <p class="periode">Semua Periode</p>
+        @endif
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>Kode Barang</th>
-                <th>Nama Barang</th>
-                <th>Kategori</th>
-                <th>Stok Minimal</th>
-                <th>Stok</th>
-                <th>Tanggal Pembelian</th>
-                <th>Tanggal Kadaluarsa</th>
-                <th>HPP</th>
-                <th>Harga Jual 1</th>
-                <th>Harga Jual 2</th>
-                <th>Harga Jual 3</th>
-
+                <th style="text-align: center;">Kode Barang</th>
+                <th style="text-align: center;">Nama Barang</th>
+                <th style="text-align: center;">Kategori</th>
+                <th style="text-align: center;">Tanggal Pembelian</th>
+                <th style="text-align: center;">Tanggal Kadaluarsa</th>
+                <th style="text-align: center;">Stok Awal</th>
+                <th style="text-align: center;">Stok Terkini</th>
+                <th style="text-align: center;">HPP</th>
+                <th style="text-align: center;">Tanggal Dibuat</th>
             </tr>
         </thead>
         <tbody>
@@ -120,16 +121,18 @@
                     <td style="text-align: center;">{{ $barangs->kode_barang }}</td>
                     <td style="text-align: center;">{{ $barangs->nama_barang }}</td>
                     <td style="text-align: center;">{{ $barangs->kategori->nama_kategori }}</td>
-                    <td style="text-align: center;">{{ $barangs->stok_minimal }}</td>
+                    <td style="text-align: center;">
+                        {{ $barangs->tgl_pembelian ? date('d/m/Y', strtotime($barangs->tgl_pembelian)) : '-' }}
+                    </td>
+                    <td style="text-align: center;">
+                        {{ $barangs->tgl_kadaluarsa ? date('d/m/Y', strtotime($barangs->tgl_kadaluarsa)) : '-' }}
+                    </td>
+                    <td style="text-align: center;">{{ $barangs->stok_awal }}</td>
                     <td style="text-align: center;">{{ $barangs->stok }}</td>
-                    <td style="text-align: center;">
-                        {{ $barangs->tgl_pembelian ? date('d/m/Y', strtotime($barangs->tgl_pembelian)) : '-' }}</td>
-                    <td style="text-align: center;">
-                        {{ $barangs->tgl_kadaluarsa ? date('d/m/Y', strtotime($barangs->tgl_kadaluarsa)) : '-' }}</td>
                     <td style="text-align: center;">Rp {{ number_format($barangs->harga_beli, 0, ',', '.') }}</td>
-                    <td style="text-align: center;">Rp {{ number_format($barangs->harga_jual_1, 0, ',', '.') }}</td>
-                    <td style="text-align: center;">Rp {{ number_format($barangs->harga_jual_2, 0, ',', '.') }}</td>
-                    <td style="text-align: center;">Rp {{ number_format($barangs->harga_jual_3, 0, ',', '.') }}</td>
+                    <td style="text-align: center;">
+                        {{ $barangs->created_at ? date('d/m/Y', strtotime($barangs->created_at)) : '-' }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>

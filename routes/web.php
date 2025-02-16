@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\LaporanBarangController;
+use App\Http\Controllers\LogActivityController;
 use App\Http\Middleware\RoleMiddelware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -78,8 +80,6 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::get('edit/{id?}', [BarangController::class, 'edit'])->name('barang.edit');
         Route::post('update/{id?}', [BarangController::class, 'update'])->name('barang.update');
         Route::get('delete/{id?}', [BarangController::class, 'delete'])->name('barang.delete');
-        Route::get('export-excel', [BarangController::class, 'excel'])->name('barang.export-excel');
-        Route::get('export-pdf', [BarangController::class, 'pdf'])->name('barang.export-pdf');
     });
 
     Route::prefix('pelanggan')->middleware('role')->group(function () {
@@ -92,12 +92,22 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::get('delete/{id?}', [PelangganController::class, 'delete'])->name('pelanggan.delete');
     });
 
-    Route::prefix('laporan-transaksi')->group(function () {
-        Route::get('/', [LaporanTransaksiController::class, 'index'])->name('laporan-transaksi.index');
-        Route::get('view/{id?}', [LaporanTransaksiController::class, 'view'])->name('laporan-transaksi.view');
-        Route::get('delete/{id?}', [LaporanTransaksiController::class, 'delete'])->name('laporan-transaksi.delete');
-        Route::get('export-excel', [LaporanTransaksiController::class, 'excel'])->name('laporan-transaksi.export-excel');
-        Route::get('export-pdf', [LaporanTransaksiController::class, 'pdf'])->name('laporan-transaksi.export-pdf');
+    Route::prefix('report')->group(function () {
+        Route::prefix('laporan-transaksi')->group(function () {
+            Route::get('/', [LaporanTransaksiController::class, 'index'])->name('report.laporan-transaksi.index');
+            Route::get('view/{id?}', [LaporanTransaksiController::class, 'view'])->name('report.laporan-transaksi.view');
+            Route::get('delete/{id?}', [LaporanTransaksiController::class, 'delete'])->name('report.laporan-transaksi.delete');
+            Route::get('export-excel', [LaporanTransaksiController::class, 'excel'])->name('report.laporan-transaksi.export-excel');
+            Route::get('export-pdf', [LaporanTransaksiController::class, 'pdf'])->name('report.laporan-transaksi.export-pdf');
+        });
+
+        Route::prefix('laporan-barang')->group(function () {
+            Route::get('/', [LaporanBarangController::class, 'index'])->name('report.laporan-barang.index');
+            Route::get('view/{id?}', [LaporanBarangController::class, 'view'])->name('report.laporan-barang.view');
+            Route::get('delete/{id?}', [LaporanBarangController::class, 'delete'])->name('report.laporan-barang.delete');
+            Route::get('export-excel', [LaporanBarangController::class, 'excel'])->name('report.laporan-barang.export-excel');
+            Route::get('export-pdf', [LaporanBarangController::class, 'pdf'])->name('report.laporan-barang.export-pdf');
+        });
     });
 
     Route::prefix('user-management')->middleware('role')->group(function () {
@@ -120,5 +130,9 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
             Route::post('update/{id?}', [UserController::class, 'update'])->name('user-management.user.update');
             Route::get('delete/{id?}', [UserController::class, 'delete'])->name('user-management.user.delete');
         });
+    });
+
+    Route::prefix('log-activity')->middleware('role')->group(function () {
+        Route::get('/', [LogActivityController::class, 'index'])->name('log-activity.index');
     });
 });

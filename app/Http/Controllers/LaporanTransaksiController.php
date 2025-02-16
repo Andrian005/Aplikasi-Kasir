@@ -8,6 +8,7 @@ use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use App\Models\DetailTransaksi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LaporanTransaksiExport;
 use Yajra\DataTables\Facades\DataTables;
@@ -35,13 +36,13 @@ class LaporanTransaksiController extends Controller
                 })->make(true);
         }
 
-        return view('laporan-transaksi.index', compact('title'));
+        return view('report.laporan-transaksi.index', compact('title'));
     }
 
     public function view($id)
     {
         $model = Transaksi::with(['detailTransaksi', 'pelanggan', 'typePelanggan'])->findOrFail($id);
-        return view('laporan-transaksi.view', compact('model'));
+        return view('report.laporan-transaksi.view', compact('model'));
     }
 
     public function delete($id)
@@ -79,7 +80,21 @@ class LaporanTransaksiController extends Controller
             $dateRange = $dates;
         }
 
-        return Excel::download(new LaporanTransaksiExport($dateRange), 'laporan-transaksi.xlsx');
+        $filename = 'laporan-transaksi.xlsx';
+
+        activity()
+            ->useLog('Laporan Transaksi')
+            ->performedOn(new Transaksi)
+            ->causedBy(Auth::user())
+            ->event('export')
+            ->withProperties([
+                'date_range' => $dateRange,
+                'filename' => $filename,
+                'jumlah_data' => Transaksi::count(),
+            ])
+            ->log('Export Laporan Transaksi Excel');
+
+        return Excel::download(new LaporanTransaksiExport($dateRange), $filename);
     }
 
     public function pdf(Request $request)
@@ -99,7 +114,21 @@ class LaporanTransaksiController extends Controller
         }
         $transaksis = $query->get();
 
-        $pdf = PDF::loadView('laporan-transaksi.pdf', compact('transaksis', 'dateRange'));
-        return $pdf->download('laporan-transaksi.pdf');
+        $filename = 'laporan-transaksi.pdf';
+
+        activity()
+            ->useLog('Laporan Transaksi')
+            ->performedOn(new Transaksi)
+            ->causedBy(Auth::user())
+            ->event('export')
+            ->withProperties([
+                'date_range' => $dateRange,
+                'filename' => $filename,
+                'jumlah_data' => $transaksis->count(),
+            ])
+            ->log('Export Laporan Transaksi PDF');
+
+        $pdf = PDF::loadView('report.laporan-transaksi.pdf', compact('transaksis', 'dateRange'));
+        return $pdf->download($filename);
     }
 }

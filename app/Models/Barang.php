@@ -38,6 +38,18 @@ class Barang extends Model
         return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
 
+    public function detailTransaksi()
+    {
+        return $this->hasMany(DetailTransaksi::class, 'barang_id')
+            ->selectRaw('barang_id, SUM(jumlah_barang) as total_jumlah_barang')
+            ->groupBy('barang_id');
+    }
+
+    public function getStokAwalAttribute()
+    {
+        return $this->stok + ($this->detailTransaksi->sum('total_jumlah_barang') ?? 0);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

@@ -99,7 +99,7 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
                     ],
                     'fill' => [
                         'fillType'   => Fill::FILL_SOLID,
-                        'startColor' => ['rgb' => '4F81BD'],
+                        'startColor' => ['rgb' => '4CAF50'],
                     ],
                 ]);
 
@@ -138,7 +138,7 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
                     ],
                     'fill' => [
                         'fillType'   => Fill::FILL_SOLID,
-                        'startColor' => ['rgb' => 'D9E1F2'],
+                        'startColor' => ['rgb' => 'C8E6C9'],
                     ],
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,

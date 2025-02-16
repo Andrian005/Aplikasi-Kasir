@@ -45,7 +45,7 @@
         <td style="border: 0;">Rp. {{ number_format($model->ppn, 0, ',', '.') }}</td>
     </tr>
     <tr>
-        <th style="border: 0; width: 120px">Total Harga</th>
+        <th style="border: 0; width: 120px">Total Akhir</th>
         <td style="border: 0; width: 1px">:</td>
         <td style="border: 0;">Rp. {{ number_format($model->total_akhir, 0, ',', '.') }}</td>
     </tr>

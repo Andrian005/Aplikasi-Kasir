@@ -5,12 +5,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="text-left">
-                        <a href="{{ route('barang.export-excel') }}" id="exportExcel" class="btn btn-success">Export
-                            Excel</a>
-                        <a href="{{ route('barang.export-pdf') }}" id="exportPdf" class="btn btn-primary">Export
-                            PDF</a>
-                    </div>
                     <div class="text-right mb-3">
                         <a href="{{ route('barang.create') }}" class="btn btn-primary">
                             Tambah

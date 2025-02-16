@@ -81,8 +81,8 @@ class KasirServices
                     $barang = $this->barangRepository->findById($detail['barang_id']);
                     $barang->stok -= $detail['jumlah'];
 
-                    $this->kasirRepository->updateBarang($detail['barang_id'], ['stok' => $barang->stok]);
                     $this->kasirRepository->storeDetailTransaksi($detailData);
+                    $this->kasirRepository->updateBarang($detail['barang_id'], ['stok' => $barang->stok]);
                 }
             }
 

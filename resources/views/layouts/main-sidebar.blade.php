@@ -27,8 +27,8 @@
                                 class="nav-link {{ request()->routeIs('list-data.kategori.*') ? 'text-primary' : '' }}">Kategori</a>
                         </li>
                         <li><a href="{{ route('list-data.diskon.index') }}"
-                                class="nav-link {{ request()->routeIs('list-data.diskon.*') ? 'text-primary' : '' }}">Diskon
-                                Barang</a></li>
+                                class="nav-link {{ request()->routeIs('list-data.diskon.*') ? 'text-primary' : '' }}">Diskon</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="menu-header">Manajement</li>
@@ -40,9 +40,19 @@
                             class="fas fa-user"></i><span>Pelanggan</span></a>
                 </li>
             @endif
-            <li class="dropdown {{ request()->routeIs('laporan-transaksi.index') ? 'active' : '' }}">
-                <a href="{{ route('laporan-transaksi.index') }}" class="nav-link"><i
-                        class="fas fa-flag"></i><span>Laporan Transaksi</span></a>
+            <li class="dropdown {{ request()->routeIs('report.*') ? 'active' : '' }}">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-flag"></i>
+                    <span>Report</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ route('report.laporan-transaksi.index') }}"
+                            class="nav-link {{ request()->routeIs('report.laporan-transaksi.*') ? 'text-primary' : '' }}">Laporan
+                            Transaksi</a>
+                    </li>
+                    <li><a href="{{ route('report.laporan-barang.index') }}"
+                            class="nav-link {{ request()->routeIs('report.laporan-barang.*') ? 'text-primary' : '' }}">
+                            Laporan Stok Barang</a>
+                    </li>
+                </ul>
             </li>
             @if(Auth::check() && Auth::user()->role->role == 'Administrator')
                 <li class="dropdown {{ request()->routeIs('user-management.user.index') ? 'active' : '' }}">
@@ -53,6 +63,10 @@
                                 class="nav-link {{ request()->routeIs('user-management.user.*') ? 'text-primary' : '' }}">User</a>
                         </li>
                     </ul>
+                </li>
+                <li class="dropdown {{ request()->routeIs('log-activity.index') ? 'active' : '' }}">
+                    <a href="{{ route('log-activity.index') }}" class="nav-link"><i
+                            class="fas fa-clock-rotate-left"></i><span>Catatan Aktivitas</span></a>
                 </li>
             @endif
         </ul>

@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use PDF;
-use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Services\BarangServices;
-use App\Exports\LaporanBarangExport;
 use App\Http\Requests\BarangRequest;
-use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class BarangController extends Controller
@@ -27,11 +23,11 @@ class BarangController extends Controller
         if ($request->ajax()) {
             $model = $this->barangServices->index();
             return DataTables::of($model)
-            ->addColumn('status', function ($row) {
-                return Carbon::now()->gt($row->tgl_kadaluarsa) ? '<div class="badge badge-danger">Kadaluarsa</div>' : '<div class="badge badge-success">Masih Berlaku</div>';
-            })
-            ->rawColumns(['status'])
-            ->make(true);
+                ->addColumn('status', function ($row) {
+                    return Carbon::now()->gt($row->tgl_kadaluarsa) ? '<div class="badge badge-danger">Kadaluarsa</div>' : '<div class="badge badge-success">Masih Berlaku</div>';
+                })
+                ->rawColumns(['status'])
+                ->make(true);
         }
         return view('barang.index', compact('title'));
     }
@@ -75,16 +71,4 @@ class BarangController extends Controller
         return response()->json($data);
     }
 
-    public function excel()
-    {
-        return Excel::download(new LaporanBarangExport(), 'laporan-barang.xlsx');
-    }
-
-    public function pdf()
-    {
-        $barang = Barang::with('kategori')->get();
-
-        $pdf = PDF::loadView('barang.pdf', compact('barang'));
-        return $pdf->download('laporan-barang.pdf');
-    }
 }

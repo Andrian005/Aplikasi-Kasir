@@ -7,6 +7,7 @@ use App\Services\KasirServices;
 use App\Services\BarangServices;
 use App\Services\DiskonServices;
 use App\Services\PelangganServices;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\TransaksiRequest;
 
 class KasirController extends Controller
@@ -65,14 +66,42 @@ class KasirController extends Controller
     public function downloadInvoice($transaksiId)
     {
         $transaksi = $this->kasirServices->invoice($transaksiId);
+
+        $filename = 'invoice_' . $transaksi->invoice . '.pdf';
+
+        activity()
+            ->useLog('Download Invoice Transaksi')
+            ->performedOn($transaksi->first())
+            ->causedBy(Auth::user())
+            ->event('download')
+            ->withProperties([
+                'filename' => $filename,
+                'attributes' => $transaksi,
+            ])
+            ->log('Download Invoice Transaksi');
+
         $pdf = PDF::loadView('kasir.invoice_pdf', compact('transaksi'));
-        return $pdf->download('invoice_'.$transaksi->invoice.'.pdf');
+        return $pdf->download($filename);
     }
 
     public function printInvoice($transaksiId)
     {
         $transaksi = $this->kasirServices->invoice($transaksiId);
+
+        $filename = 'invoice_' . $transaksi->invoice . '.pdf';
+
+        activity()
+            ->useLog('Download Invoice Transaksi')
+            ->performedOn($transaksi->first())
+            ->causedBy(Auth::user())
+            ->event('print')
+            ->withProperties([
+                'filename' => $filename,
+                'attributes' => $transaksi,
+            ])
+            ->log('Print Invoice Transaksi');
+
         $pdf = PDF::loadView('kasir.invoice_pdf', compact('transaksi'));
-        return $pdf->stream('invoice_'.$transaksi->invoice.'.pdf');
+        return $pdf->stream($filename);
     }
 }

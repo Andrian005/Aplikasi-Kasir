@@ -52,7 +52,7 @@
 
     <h4>Informasi Pelanggan</h4>
     @if($transaksi->pelanggan)
-        <p><strong>Nama:</strong> {{ $transaksi->pelanggan->nama_pelanggan }}</p>
+        <p><strong>Nama:</strong> {{ $transaksi->pelanggan->nama_pelanggan ?? '-' }}</p>
         <p><strong>Alamat:</strong> {{ $transaksi->pelanggan->alamat ?? '-' }}</p>
         <p><strong>Telepon:</strong> +{{ $transaksi->pelanggan->nomor_telepon ?? '-' }}</p>
         <p><strong>Poin Member:</strong> {{ $transaksi->pelanggan->poin_member ?? '-' }}</p>
