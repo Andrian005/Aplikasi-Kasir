@@ -135,7 +135,7 @@
                         data-harga_jual_3="${item.harga_jual_3}"
                         data-stok="${item.stok}"
                         data-stok_minimal="${item.stok_minimal}">
-                        ${item.kode_barang} - 
+                        ${item.kode_barang} -
                         ${item.nama_barang}
                         </option>
                     `));
@@ -196,7 +196,7 @@
 
     const updateHargaPembelanjaan = () => {
         const multiplier = getMultiplier();
-        $('#data-pembelanjaan tr').each(function () {
+        $('#data-pembelanjaan .data-row').each(function () {
             const $row = $(this);
             const hargaAsli = parseInt($row.data('harga-asli')) || 0;
             const jumlah = parseInt($row.find('.jumlah-barang input').val()) || 1;

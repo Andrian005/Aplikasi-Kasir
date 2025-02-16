@@ -3,7 +3,7 @@
         <div class="form-group">
             <label for="kode_barang">Kode <span class="text-danger">*</span></label>
             <input type="text" name="kode_barang" id="kode_barang" value="{{ $data->kode_barang ?? '' }}"
-                class="form-control number" placeholder="Masukkan kode barang">
+                class="form-control kode" placeholder="Masukkan kode barang">
         </div>
     </div>
     <div class="col-md-6">
