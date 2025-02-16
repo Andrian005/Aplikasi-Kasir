@@ -125,20 +125,30 @@
             type: "GET",
             success: function (data) {
                 let html = $("#table");
-                data.forEach(function (item) {
-                    let row = `
-                            <tr>
-                                <td>${item.kode_barang}</td>
-                                    <td>${item.nama_barang}</td>
-                                    <td><span class="badge ${item.status_stok == 'Stok Menipis' ? 'badge-warning' : 'badge-danger'}">${item.status_stok}</td>
-                                    <td>${item.tgl_kadaluarsa}</td>
-                                    <td>
-                                        <button class="btn btn-warning btn-sm" onclick="detail(${item.id})">Detail</button>
-                                    </td>
-                            </tr>
-                            `;
-                    html.append(row);
-                });
+                html.find("tr:gt(0)").remove();
+
+                if (data.length === 0) {
+                    html.append(`
+                    <tr>
+                        <td colspan="5" class="text-center">Tidak ada data</td>
+                    </tr>
+                `);
+                } else {
+                    data.forEach(function (item) {
+                        let row = `
+                        <tr>
+                            <td>${item.kode_barang}</td>
+                            <td>${item.nama_barang}</td>
+                            <td><span class="badge ${item.status_stok == 'Stok Menipis' ? 'badge-warning' : 'badge-danger'}">${item.status_stok}</span></td>
+                            <td>${item.tgl_kadaluarsa}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="detail(${item.id})">Detail</button>
+                            </td>
+                        </tr>
+                    `;
+                        html.append(row);
+                    });
+                }
             },
             error: function () {
                 alert("Gagal mengambil data.");

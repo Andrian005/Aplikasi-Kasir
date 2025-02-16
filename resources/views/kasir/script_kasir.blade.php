@@ -135,6 +135,7 @@
                         data-harga_jual_3="${item.harga_jual_3}"
                         data-stok="${item.stok}"
                         data-stok_minimal="${item.stok_minimal}">
+                        ${item.kode_barang} - 
                         ${item.nama_barang}
                         </option>
                     `));

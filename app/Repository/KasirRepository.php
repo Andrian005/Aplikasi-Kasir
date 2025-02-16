@@ -49,7 +49,7 @@ class KasirRepository
 
     public function getBarang()
     {
-        return $this->barang::select('id', 'nama_barang', 'tgl_kadaluarsa', 'harga_beli',  'harga_jual_1', 'harga_jual_2', 'harga_jual_3','stok_minimal', 'stok')
+        return $this->barang::select('id', 'kode_barang', 'nama_barang', 'tgl_kadaluarsa', 'harga_beli',  'harga_jual_1', 'harga_jual_2', 'harga_jual_3','stok_minimal', 'stok')
             ->where('tgl_kadaluarsa', '>', now())
             ->get();
     }
