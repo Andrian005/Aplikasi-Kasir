@@ -92,7 +92,11 @@
                     }
                 },
                 columns: [
-                    { data: 'created_by', name: 'created_by' },
+                    { data: 'nama_kasir', name: 'nama_kasir',
+                        render: function (data) {
+                            return data ?? '-';
+                        }
+                    },
                     {
                         data: 'created_at',
                         name: 'created_at',

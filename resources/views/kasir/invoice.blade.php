@@ -1,3 +1,9 @@
+<style>
+    .custom-dialog-size .modal-dialog {
+        max-width: 90% !important;
+    }
+</style>
+
 <div class="container">
     <!-- Tombol download dan print -->
     <div class="d-flex justify-content-end my-3">
@@ -87,7 +93,8 @@
                             <tr>
                                 <th class="text-right">Poin Digunakan :</th>
                                 <td class="text-right">Rp
-                                    {{ number_format($transaksi->poin_member_digunakan, 0, ',', '.') }}</td>
+                                    {{ number_format($transaksi->poin_member_digunakan, 0, ',', '.') }}
+                                </td>
                             </tr>
                             <tr>
                                 <th class="text-right">Diskon :</th>
@@ -101,17 +108,20 @@
                         <tr>
                             <th class="text-right">Total Akhir :</th>
                             <td class="text-right text-primary fw-bold">Rp
-                                {{ number_format($transaksi->total_akhir, 0, ',', '.') }}</td>
+                                {{ number_format($transaksi->total_akhir, 0, ',', '.') }}
+                            </td>
                         </tr>
                         <tr>
                             <th class="text-right">Pembayaran :</th>
                             <td class="text-right text-primary fw-bold">Rp
-                                {{ number_format($transaksi->pembayaran, 0, ',', '.') }}</td>
+                                {{ number_format($transaksi->pembayaran, 0, ',', '.') }}
+                            </td>
                         </tr>
                         <tr>
                             <th class="text-right">Kembalian :</th>
                             <td class="text-right text-primary fw-bold">Rp
-                                {{ number_format($transaksi->kembalian, 0, ',', '.') }}</td>
+                                {{ number_format($transaksi->kembalian, 0, ',', '.') }}
+                            </td>
                         </tr>
                     </table>
                 </div>

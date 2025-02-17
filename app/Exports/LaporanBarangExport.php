@@ -3,19 +3,20 @@
 namespace App\Exports;
 
 use App\Models\Barang;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithCustomStartCell;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Events\AfterSheet;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
 class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, WithEvents, WithCustomStartCell, ShouldAutoSize, WithStyles, WithColumnFormatting
 {
@@ -85,30 +86,83 @@ class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, 
                 $sheet->mergeCells('A1:I1');
                 $sheet->setCellValue('A1', 'Toko Kita Bersama');
                 $sheet->getStyle('A1')->applyFromArray([
-                    'font' => ['bold' => true, 'size' => 20, 'color' => ['rgb' => 'FFFFFF']],
-                    'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
-                    'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '4CAF50']],
+                    'font' => [
+                        'bold' => true,
+                        'size' => 20,
+                        'color' => ['rgb' => 'FFFFFF'],
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
+                    'fill' => [
+                        'fillType' => Fill::FILL_SOLID,
+                        'startColor' => ['rgb' => '4CAF50'],
+                    ],
                 ]);
 
                 $sheet->mergeCells('A2:I2');
                 $sheet->setCellValue('A2', 'Laporan Data Barang');
                 $sheet->getStyle('A2')->applyFromArray([
-                    'font' => ['bold' => true, 'size' => 16, 'color' => ['rgb' => '000000']],
-                    'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+                    'font' => [
+                        'bold' => true,
+                        'size' => 16,
+                        'color' => ['rgb' => '000000'],
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
                 ]);
 
                 $sheet->mergeCells('A3:I3');
                 $sheet->setCellValue('A3', $periodeText);
                 $sheet->getStyle('A3')->applyFromArray([
-                    'font' => ['italic' => true, 'size' => 12, 'color' => ['rgb' => '000000']],
-                    'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+                    'font' => [
+                        'italic' => true,
+                        'size' => 12,
+                        'color' => ['rgb' => '000000'],
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
+                ]);
+
+                $printedBy = "Dicetak oleh: " . Auth::user()->name . " pada " . date('d/m/Y H:i:s');
+                $sheet->mergeCells('A4:I4');
+                $sheet->setCellValue('A4', $printedBy);
+                $sheet->getStyle('A4')->applyFromArray([
+                    'font' => [
+                        'italic' => true,
+                        'size' => 12,
+                        'color' => ['rgb' => '000000'],
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
                 ]);
 
                 $sheet->getStyle('A5:I5')->applyFromArray([
-                    'font' => ['bold' => true, 'color' => ['rgb' => '000000']],
-                    'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'C8E6C9']],
-                    'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
-                    'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '000000']]],
+                    'font' => [
+                        'bold' => true,
+                        'color' => ['rgb' => '000000'],
+                    ],
+                    'fill' => [
+                        'fillType' => Fill::FILL_SOLID,
+                        'startColor' => ['rgb' => 'C8E6C9'],
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN,
+                            'color' => ['rgb' => '000000'],
+                        ],
+                    ],
                 ]);
 
                 $sheet->freezePane('A6');
@@ -116,10 +170,17 @@ class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, 
                 $highestColumn = $sheet->getHighestColumn();
 
                 $sheet->getStyle("A5:{$highestColumn}{$highestRow}")->applyFromArray([
-                    'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '000000']]],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN,
+                            'color' => ['rgb' => '000000'],
+                        ],
+                    ],
                 ]);
 
-                $sheet->getStyle("E6:H{$highestRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+                $sheet->getStyle("E6:H{$highestRow}")
+                    ->getAlignment()
+                    ->setHorizontal(Alignment::HORIZONTAL_RIGHT);
 
                 for ($row = 6; $row <= $highestRow; $row++) {
                     $fillColor = ($row % 2 == 0) ? 'FFFFFF' : 'F2F2F2';

@@ -99,6 +99,9 @@
         @else
             <p class="periode">Semua Periode</p>
         @endif
+        <p class="exported-info">
+            Dicetak oleh: {{ Auth::user()->name }} pada {{ date('d/m/Y H:i:s') }}
+        </p>
     </div>
 
     <table>
@@ -117,9 +120,9 @@
         <tbody>
             @foreach($transaksis as $transaksi)
                 <tr>
-                    <td style="text-align: center;">{{ $transaksi->created_by }}</td>
+                    <td style="text-align: center;">{{ $transaksi->detailKasir->name }}</td>
                     <td style="text-align: center;">
-                        {{ $transaksi->created_at ? date('d/m/Y', strtotime($transaksi->created_at)) : '-'}}
+                        {{ $transaksi->created_at ? date('d/m/Y H:i:s', strtotime($transaksi->created_at)) : '-' }}
                     </td>
                     <td style="text-align: center;">{{ $transaksi->pelanggan->nama_pelanggan ?? 'Umum' }}</td>
                     <td style="text-align: center;">{{ $transaksi->pelanggan->typePelanggan->type ?? '-' }}</td>
@@ -134,10 +137,13 @@
         <tfoot>
             <tr>
                 <td colspan="4" style="text-align: right;">Grand Total</td>
-                <td style="text-align: center;">Rp {{ number_format($transaksis->sum('total_belanja'), 0, ',', '.') }}</td>
+                <td style="text-align: center;">Rp {{ number_format($transaksis->sum('total_belanja'), 0, ',', '.') }}
+                </td>
                 <td style="text-align: center;">Rp {{ number_format($transaksis->sum('diskon'), 0, ',', '.') }}</td>
-                <td style="text-align: center;">Rp {{ number_format($transaksis->sum('poin_member_digunakan'), 0, ',', '.') }}</td>
-                <td style="text-align: center;">Rp {{ number_format($transaksis->sum('total_akhir'), 0, ',', '.') }}</td>
+                <td style="text-align: center;">Rp
+                    {{ number_format($transaksis->sum('poin_member_digunakan'), 0, ',', '.') }}</td>
+                <td style="text-align: center;">Rp {{ number_format($transaksis->sum('total_akhir'), 0, ',', '.') }}
+                </td>
             </tr>
         </tfoot>
     </table>

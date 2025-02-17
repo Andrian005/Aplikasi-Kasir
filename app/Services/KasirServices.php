@@ -40,6 +40,7 @@ class KasirServices
 
             $transaksi = [
                 'invoice' => 'INV-' . Carbon::now()->format('YmdHis'),
+                'kasir_id' => Auth::user()->id,
                 'pelanggan_id' => $data['pelanggan_id'],
                 'total_belanja' => $data['total_harga'],
                 'diskon' => $data['diskon'],

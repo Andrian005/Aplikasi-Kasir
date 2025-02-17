@@ -53,6 +53,20 @@ class Transaksi extends Model
             ->select(['id', 'type']);
     }
 
+    public function detailKasir()
+    {
+        return $this->belongsTo(User::class, 'kasir_id')
+            ->select(['id', 'name']);
+    }
+
+    public function scopeFilterByUserRole($query, $user)
+    {
+        if ($user->role->role === 'Petugas Kasir') {
+            return $query->where('kasir_id', $user->id);
+        }
+        return $query;
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

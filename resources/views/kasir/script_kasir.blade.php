@@ -1,5 +1,4 @@
 <script>
-    // Fungsi untuk mendapatkan multiplier berdasarkan data harga jual di select barang
     const getMultiplier = () => {
         const pelangganType = parseInt($('#pelanggan option:selected').data('type')) || 0;
         const $barang = $('#barang option:selected');
@@ -22,7 +21,6 @@
         return multiplier;
     };
 
-    // Meng-update tampilan total belanja (text di #total-belanja)
     const updateTotalBelanja = () => {
         let total = 0;
         $('#data-pembelanjaan tr').each(function () {
@@ -38,7 +36,6 @@
         }
     };
 
-    // Hitung total transaksi (diskon, poin, PPN) dan update field terkait
     const hitungTotalBelanja = () => {
         let totalSebelumDiskon = 0;
         $('.total-harga').each(function () {
@@ -70,7 +67,16 @@
 
         const gunakanPoin = $('#poin').is(':checked');
         const poinMaks = parseInt($('#pelanggan option:selected').data('poin')) || 0;
-        const poinDigunakan = gunakanPoin ? Math.min(poinMaks, totalSetelahDiskon) : 0;
+        let poinDigunakan = 0;
+
+        if (gunakanPoin) {
+            if (poinMaks >= totalSebelumDiskon) {
+                poinDigunakan = Math.floor(poinMaks * 0.5);
+            } else {
+                poinDigunakan = Math.min(poinMaks, totalSetelahDiskon);
+            }
+        }
+
         totalSetelahDiskon -= poinDigunakan;
 
         const nilaiPPN = parseInt(totalSetelahDiskon * 0.12);
@@ -352,7 +358,6 @@
                     detailIndex++;
                 }
             } else {
-                // Logika pengurangan
                 const $row = $(`#data-pembelanjaan .data-row[data-id="${barangId}"]`);
                 if ($row.length) {
                     let currentQuantity = parseInt($row.find('.jumlah-barang input').val()) || 0;
@@ -391,7 +396,6 @@
 
         $('#infoPelanggan').on('change', '#poin', hitungTotalBelanja);
 
-        // Reset transaksi
         $('#reset').click(e => {
             e.preventDefault();
             $('#data-pembelanjaan').find('.data-row').remove();

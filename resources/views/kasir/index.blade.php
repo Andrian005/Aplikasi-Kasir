@@ -116,11 +116,11 @@
 
                         bootbox.dialog({
                             message: '<div id="invoiceContent" style="min-height: 300px;">Loading invoice...</div>',
-                            size: 'large',
                             onShown: function () {
                                 $("#invoiceContent").load("{{ route('kasir.invoice') }}/" + response.transaksiId);
                             }
                         });
+                        $('.bootbox').addClass('custom-dialog-size');
                     } else {
                         iziToast.error({
                             title: 'Error',

@@ -18,7 +18,10 @@ class LaporanTransaksiController extends Controller
     public function index(Request $request)
     {
         $title = 'Laporan Transaksi';
-        $model = Transaksi::with(['detailTransaksi', 'pelanggan.typePelanggan']);
+
+        $user = Auth::user();
+        $model = Transaksi::with(['detailTransaksi', 'pelanggan.typePelanggan', 'detailKasir'])
+            ->filterByUserRole($user);
 
         if ($request->has('date_range') && !empty($request->date_range)) {
             $dates = explode(' - ', $request->date_range);
@@ -33,7 +36,11 @@ class LaporanTransaksiController extends Controller
             return DataTables::of($model)
                 ->addColumn('role', function () {
                     return auth()->user()->role->role;
-                })->make(true);
+                })
+                ->addColumn('nama_kasir', function ($row) {
+                    return $row->detailKasir->name ?? '-';
+                })
+                ->make(true);
         }
 
         return view('report.laporan-transaksi.index', compact('title'));
@@ -41,7 +48,7 @@ class LaporanTransaksiController extends Controller
 
     public function view($id)
     {
-        $model = Transaksi::with(['detailTransaksi', 'pelanggan', 'typePelanggan'])->findOrFail($id);
+        $model = Transaksi::with(['detailTransaksi', 'pelanggan', 'typePelanggan', 'detailKasir'])->findOrFail($id);
         return view('report.laporan-transaksi.view', compact('model'));
     }
 
@@ -100,7 +107,10 @@ class LaporanTransaksiController extends Controller
     public function pdf(Request $request)
     {
         $dateRangeInput = $request->get('date_range');
-        $query = Transaksi::with(['detailTransaksi', 'pelanggan', 'typePelanggan']);
+
+        $user = Auth::user();
+        $query = Transaksi::with(['detailTransaksi', 'pelanggan', 'typePelanggan', 'detailKasir'])
+            ->filterByUserRole($user);
 
         $dateRange = null;
         if ($dateRangeInput) {

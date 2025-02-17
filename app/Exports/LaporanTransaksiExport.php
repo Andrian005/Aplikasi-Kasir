@@ -3,19 +3,20 @@
 namespace App\Exports;
 
 use App\Models\Transaksi;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithCustomStartCell;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Events\AfterSheet;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
 class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMapping, WithEvents, WithCustomStartCell, ShouldAutoSize, WithStyles, WithColumnFormatting
 {
@@ -28,7 +29,9 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
 
     public function collection()
     {
-        $query = Transaksi::with(['detailTransaksi', 'pelanggan.typePelanggan']);
+        $user = Auth::user();
+        $query = Transaksi::with(['detailTransaksi', 'pelanggan.typePelanggan', 'detailKasir'])
+            ->filterByUserRole($user);
 
         if ($dates = $this->dateRange) {
             $startDate = $dates[0];
@@ -56,7 +59,7 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
     public function map($transaksi): array
     {
         return [
-            $transaksi->created_by,
+            $transaksi->detailKasir->name ?? 'Tidak diketahui',
             $transaksi->created_at ? $transaksi->created_at->format('d/m/Y H:i:s') : '',
             $transaksi->pelanggan->nama_pelanggan ?? 'Umum',
             $transaksi->pelanggan->typePelanggan->type ?? '-',
@@ -81,24 +84,26 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
             $periodeText = "Periode Transaksi: $startDate - $endDate";
         }
 
+        $printedBy = "Dicetak oleh: " . Auth::user()->name . " pada " . date('d/m/Y H:i:s');
+
         return [
-            AfterSheet::class => function (AfterSheet $event) use ($periodeText) {
+            AfterSheet::class => function (AfterSheet $event) use ($periodeText, $printedBy) {
                 $sheet = $event->sheet->getDelegate();
 
                 $sheet->mergeCells('A1:H1');
                 $sheet->setCellValue('A1', 'Toko Kita Bersama');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
-                        'bold'  => true,
-                        'size'  => 20,
+                        'bold' => true,
+                        'size' => 20,
                         'color' => ['rgb' => 'FFFFFF'],
                     ],
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
-                        'vertical'   => Alignment::VERTICAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
                     ],
                     'fill' => [
-                        'fillType'   => Fill::FILL_SOLID,
+                        'fillType' => Fill::FILL_SOLID,
                         'startColor' => ['rgb' => '4CAF50'],
                     ],
                 ]);
@@ -107,13 +112,13 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
                 $sheet->setCellValue('A2', 'Laporan Transaksi Penjualan');
                 $sheet->getStyle('A2')->applyFromArray([
                     'font' => [
-                        'bold'  => true,
-                        'size'  => 16,
+                        'bold' => true,
+                        'size' => 16,
                         'color' => ['rgb' => '000000'],
                     ],
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
-                        'vertical'   => Alignment::VERTICAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
                     ],
                 ]);
 
@@ -122,32 +127,46 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
                 $sheet->getStyle('A3')->applyFromArray([
                     'font' => [
                         'italic' => true,
-                        'size'   => 12,
-                        'color'  => ['rgb' => '000000'],
+                        'size' => 12,
+                        'color' => ['rgb' => '000000'],
                     ],
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
-                        'vertical'   => Alignment::VERTICAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
+                ]);
+
+                $sheet->mergeCells('A4:H4');
+                $sheet->setCellValue('A4', $printedBy);
+                $sheet->getStyle('A4')->applyFromArray([
+                    'font' => [
+                        'italic' => true,
+                        'size' => 12,
+                        'color' => ['rgb' => '000000'],
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
                     ],
                 ]);
 
                 $sheet->getStyle('A5:H5')->applyFromArray([
                     'font' => [
-                        'bold'  => true,
+                        'bold' => true,
                         'color' => ['rgb' => '000000'],
                     ],
                     'fill' => [
-                        'fillType'   => Fill::FILL_SOLID,
+                        'fillType' => Fill::FILL_SOLID,
                         'startColor' => ['rgb' => 'C8E6C9'],
                     ],
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
-                        'vertical'   => Alignment::VERTICAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
                     ],
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => Border::BORDER_THIN,
-                            'color'       => ['rgb' => '000000'],
+                            'color' => ['rgb' => '000000'],
                         ],
                     ],
                 ]);
@@ -160,7 +179,7 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => Border::BORDER_THIN,
-                            'color'       => ['rgb' => '000000'],
+                            'color' => ['rgb' => '000000'],
                         ],
                     ],
                 ]);
@@ -195,13 +214,13 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
                         'bold' => true,
                     ],
                     'fill' => [
-                        'fillType'   => Fill::FILL_SOLID,
+                        'fillType' => Fill::FILL_SOLID,
                         'startColor' => ['rgb' => 'FFFF99'],
                     ],
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => Border::BORDER_THIN,
-                            'color'       => ['rgb' => '000000'],
+                            'color' => ['rgb' => '000000'],
                         ],
                     ],
                 ]);

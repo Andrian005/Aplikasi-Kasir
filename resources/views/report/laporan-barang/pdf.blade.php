@@ -99,6 +99,9 @@
         @else
             <p class="periode">Semua Periode</p>
         @endif
+        <p class="exported-info">
+            Dicetak oleh: {{ Auth::user()->name }} pada {{ date('d/m/Y H:i:s') }}
+        </p>
     </div>
 
     <table>

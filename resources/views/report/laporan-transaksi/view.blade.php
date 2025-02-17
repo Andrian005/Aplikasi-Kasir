@@ -2,7 +2,7 @@
     <tr>
         <th style="border: 0; width: 120px">Nama Kasir</th>
         <td style="border: 0; width: 1px">:</td>
-        <td style="border: 0;">{{ $model->created_by ?? '-' }}</td>
+        <td style="border: 0;">{{ $model->detailKasir->name ?? '-' }}</td>
     </tr>
     <tr>
         <th style="border: 0; width: 120px">Tanggal & Waktu Transaksi</th>

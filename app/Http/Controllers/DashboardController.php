@@ -68,10 +68,12 @@ class DashboardController extends Controller
 
         $data = Transaksi::select(
             DB::raw("DATE_FORMAT(created_at, '%W') as hari"),
+            DB::raw("DATE(created_at) as tanggal"),
             DB::raw("SUM(total_akhir) as total")
         )
-            ->groupBy('hari')
-            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu')")
+            ->whereBetween('created_at', [now()->subDays(6)->startOfDay(), now()->endOfDay()])
+            ->groupBy('tanggal', 'hari')
+            ->orderBy('tanggal', 'ASC')
             ->get();
 
 

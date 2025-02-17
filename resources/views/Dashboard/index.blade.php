@@ -35,7 +35,7 @@
                 </div>
                 <div class="card-wrap">
                     <div class="card-header">
-                        <h4>Reports</h4>
+                        <h4>Laporan Transaksi</h4>
                     </div>
                     <div class="card-body" id="laporan-transaksi"></div>
                 </div>
@@ -129,23 +129,23 @@
 
                 if (data.length === 0) {
                     html.append(`
-                    <tr>
-                        <td colspan="5" class="text-center">Tidak ada data</td>
-                    </tr>
-                `);
+                            <tr>
+                                <td colspan="5" class="text-center">Tidak ada data</td>
+                            </tr>
+                        `);
                 } else {
                     data.forEach(function (item) {
                         let row = `
-                        <tr>
-                            <td>${item.kode_barang}</td>
-                            <td>${item.nama_barang}</td>
-                            <td><span class="badge ${item.status_stok == 'Stok Menipis' ? 'badge-warning' : 'badge-danger'}">${item.status_stok}</span></td>
-                            <td>${item.tgl_kadaluarsa}</td>
-                            <td>
-                                <button class="btn btn-warning btn-sm" onclick="detail(${item.id})">Detail</button>
-                            </td>
-                        </tr>
-                    `;
+                                <tr>
+                                    <td>${item.kode_barang}</td>
+                                    <td>${item.nama_barang}</td>
+                                    <td><span class="badge ${item.status_stok == 'Stok Menipis' ? 'badge-warning' : 'badge-danger'}">${item.status_stok}</span></td>
+                                    <td>${item.tgl_kadaluarsa}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" onclick="detail(${item.id})">Detail</button>
+                                    </td>
+                                </tr>
+                            `;
                         html.append(row);
                     });
                 }
@@ -184,26 +184,25 @@
                 let labels = response.map(item => item.hari);
                 let totalPenjualan = response.map(item => parseFloat(item.total));
 
+                let maxValue = Math.max(...totalPenjualan);
+
+                let stepSize = Math.ceil(maxValue / 5 / 100000) * 100000;
+
                 var ctx = document.getElementById("myChart").getContext('2d');
 
                 var myChart = new Chart(ctx, {
-                    type: 'bar',
+                    type: 'line',
                     data: {
                         labels: labels,
                         datasets: [{
                             label: 'Total Penjualan (Rp)',
                             data: totalPenjualan,
-                            backgroundColor: [
-                                'rgba(63,82,227,0.8)',
-                                'rgba(54, 162, 235, 0.8)',
-                                'rgba(75, 192, 192, 0.8)',
-                                'rgba(255, 206, 86, 0.8)',
-                                'rgba(255, 99, 132, 0.8)',
-                                'rgba(153, 102, 255, 0.8)',
-                                'rgba(255, 159, 64, 0.8)'
-                            ],
                             borderColor: 'rgba(63,82,227,1)',
-                            borderWidth: 1
+                            backgroundColor: 'rgba(63,82,227,0.2)',
+                            pointBackgroundColor: 'rgba(63,82,227,1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3
                         }]
                     },
                     options: {
@@ -218,7 +217,7 @@
                                 },
                                 ticks: {
                                     beginAtZero: true,
-                                    stepSize: 100000,
+                                    stepSize: stepSize,
                                     callback: function (value) {
                                         return 'Rp ' + value.toLocaleString('id-ID');
                                     }
