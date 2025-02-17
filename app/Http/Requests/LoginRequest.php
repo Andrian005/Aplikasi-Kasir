@@ -23,7 +23,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/',
         ];
     }
 
@@ -33,6 +33,8 @@ class LoginRequest extends FormRequest
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email salah',
             'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password harus minimal 8 karakter',
+            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, dan angka',
         ];
     }
 }
