@@ -30,8 +30,8 @@
                                     <th>Kategori</th>
                                     <th>Tanggal Pembelian</th>
                                     <th>Tanggal Kadaluarsa</th>
-                                    <th>Stok Awal</th>
-                                    <th>Stok Terkini</th>
+                                    <!-- <th>Stok Awal</th> -->
+                                    <th>Sisa Stok</th>
                                     <th>Tanggal Dibuat</th>
                                     <th></th>
                                 </tr>
@@ -97,7 +97,7 @@
                     { data: 'kategori.nama_kategori', name: 'kategori.nama_kategori' },
                     { data: 'tgl_pembelian', name: 'tgl_pembelian' },
                     { data: 'tgl_kadaluarsa', name: 'tgl_kadaluarsa' },
-                    { data: 'stok_awal', name: 'stok_awal' },
+                    // { data: 'stok_awal', name: 'stok_awal' },
                     { data: 'stok', name: 'stok' },
                     {
                         data: 'created_at',

@@ -14,13 +14,13 @@
         <td style="border: 0; width: 1px">:</td>
         <td style="border: 0;">{{ $model->kategori->nama_kategori ?? '-' }}</td>
     </tr>
-    <tr>
+    <!-- <tr>
         <th style="border: 0; width: 120px">Stok Awal</th>
         <td style="border: 0; width: 1px">:</td>
         <td style="border: 0;">{{ $model->stok_awal ?? '-' }}</td>
-    </tr>
+    </tr> -->
     <tr>
-        <th style="border: 0; width: 120px">Stok Terkini</th>
+        <th style="border: 0; width: 120px">Sisa Stok</th>
         <td style="border: 0; width: 1px">:</td>
         <td style="border: 0;">{{ $model->stok ?? '-' }}</td>
     </tr>

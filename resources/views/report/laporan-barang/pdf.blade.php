@@ -112,8 +112,8 @@
                 <th style="text-align: center;">Kategori</th>
                 <th style="text-align: center;">Tanggal Pembelian</th>
                 <th style="text-align: center;">Tanggal Kadaluarsa</th>
-                <th style="text-align: center;">Stok Awal</th>
-                <th style="text-align: center;">Stok Terkini</th>
+                <!-- <th style="text-align: center;">Stok Awal</th> -->
+                <th style="text-align: center;">Sisa Stok</th>
                 <th style="text-align: center;">HPP</th>
                 <th style="text-align: center;">Tanggal Dibuat</th>
             </tr>
@@ -130,7 +130,7 @@
                     <td style="text-align: center;">
                         {{ $barangs->tgl_kadaluarsa ? date('d/m/Y', strtotime($barangs->tgl_kadaluarsa)) : '-' }}
                     </td>
-                    <td style="text-align: center;">{{ $barangs->stok_awal }}</td>
+                    <!-- <td style="text-align: center;">{{ $barangs->stok_awal }}</td> -->
                     <td style="text-align: center;">{{ $barangs->stok }}</td>
                     <td style="text-align: center;">Rp {{ number_format($barangs->harga_beli, 0, ',', '.') }}</td>
                     <td style="text-align: center;">
