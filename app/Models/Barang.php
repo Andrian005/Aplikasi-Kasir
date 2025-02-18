@@ -70,4 +70,14 @@ class Barang extends Model
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }
+
+    public function getHargaByTipe($tipe)
+    {
+        return match ($tipe) {
+            'Type 1' => $this->harga_jual_1,
+            'Type 2' => $this->harga_jual_2,
+            'Type 3' => $this->harga_jual_3,
+            default => $this->harga_jual_3,
+        };
+    }
 }

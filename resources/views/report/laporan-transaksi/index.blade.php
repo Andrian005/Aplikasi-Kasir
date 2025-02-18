@@ -92,7 +92,8 @@
                     }
                 },
                 columns: [
-                    { data: 'nama_kasir', name: 'nama_kasir',
+                    {
+                        data: 'nama_kasir', name: 'nama_kasir',
                         render: function (data) {
                             return data ?? '-';
                         }
@@ -141,14 +142,15 @@
                     {
                         data: 'id', name: '_', orderable: false, searchable: false, class: 'text-right nowrap',
                         render: function (data, type, row) {
+                            let url = `{{ route('report.laporan-transaksi.view', ':id') }}`.replace(':id', data);
                             let html = `<div class="d-flex">`;
-                            html += `<button onclick="view(${data})" class="btn btn-info btn-icon mr-2" title="Lihat">
+                            html += `<a href="${url}" class="btn btn-info btn-icon mr-2" title="Lihat">
                                         <i class="fas fa-eye"></i>
-                                    </button>`;
+                                    </a>`;
                             if (row.role === 'Administrator') {
                                 html += `<button onclick="destroy(${data})" class="btn btn-danger btn-icon mr-2" title="Hapus">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button>`;
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>`;
                             }
                             html += `</div>`;
                             return html;
@@ -163,28 +165,6 @@
                 dataTable.draw();
             });
         });
-
-        function view(id) {
-            $.ajax({
-                url: '{{ route('report.laporan-transaksi.view') }}/' + id,
-                success: function (response) {
-                    bootbox.dialog({
-                        title: 'Detail Laporan Transaksi',
-                        message: response,
-                    });
-                },
-                error: function (response) {
-                    iziToast.error({
-                        title: 'Error',
-                        message: 'Gagal memuat form view laporan transaksi.',
-                        position: 'topRight',
-                        timeout: 3000,
-                        transitionIn: 'fadeInUp',
-                        transitionOut: 'fadeOutDown'
-                    });
-                }
-            });
-        }
 
         function destroy(id) {
             alertDestroy().then((result) => {

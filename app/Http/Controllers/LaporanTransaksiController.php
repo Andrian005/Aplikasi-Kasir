@@ -48,8 +48,11 @@ class LaporanTransaksiController extends Controller
 
     public function view($id)
     {
+        $title = 'Detail Transaksi';
         $model = Transaksi::with(['detailTransaksi', 'pelanggan', 'typePelanggan', 'detailKasir'])->findOrFail($id);
-        return view('report.laporan-transaksi.view', compact('model'));
+        $detailTransaksi = $model->detailTransaksi()->paginate(5);
+
+        return view('report.laporan-transaksi.view', compact('model', 'title', 'detailTransaksi'));
     }
 
     public function delete($id)
