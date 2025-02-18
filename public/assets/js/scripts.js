@@ -561,6 +561,20 @@ $(function() {
         $(this).val(picker.startDate.format('YYYY-MM-DD'));
     });
     }
+    if ($(".custom-datepicker").length) {
+        $('.custom-datepicker').each(function () {
+          var $this = $(this);
+          var initialValue = $this.val();
+          var startDate = initialValue ? moment(initialValue, 'YYYY-MM-DD') : moment();
+
+          $this.daterangepicker({
+            locale: { format: 'YYYY-MM-DD' },
+            singleDatePicker: true,
+            autoUpdateInput: true,
+            startDate: startDate
+          });
+        });
+      }
     if($(".datetimepicker").length) {
       $('.datetimepicker').daterangepicker({
         locale: {format: 'YYYY-MM-DD hh:mm'},
