@@ -48,10 +48,12 @@
                             class="nav-link {{ request()->routeIs('report.laporan-transaksi.*') ? 'text-primary' : '' }}">Laporan
                             Transaksi</a>
                     </li>
-                    <li><a href="{{ route('report.laporan-barang.index') }}"
-                            class="nav-link {{ request()->routeIs('report.laporan-barang.*') ? 'text-primary' : '' }}">
-                            Laporan Stok Barang</a>
-                    </li>
+                    @if(Auth::check() && Auth::user()->role->role == 'Administrator')
+                        <li><a href="{{ route('report.laporan-barang.index') }}"
+                                class="nav-link {{ request()->routeIs('report.laporan-barang.*') ? 'text-primary' : '' }}">
+                                Laporan Stok Barang</a>
+                        </li>
+                    @endif
                 </ul>
             </li>
             @if(Auth::check() && Auth::user()->role->role == 'Administrator')

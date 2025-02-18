@@ -101,7 +101,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
             Route::get('export-pdf', [LaporanTransaksiController::class, 'pdf'])->name('report.laporan-transaksi.export-pdf');
         });
 
-        Route::prefix('laporan-barang')->group(function () {
+        Route::prefix('laporan-barang')->middleware('role')->group(function () {
             Route::get('/', [LaporanBarangController::class, 'index'])->name('report.laporan-barang.index');
             Route::get('view/{id?}', [LaporanBarangController::class, 'view'])->name('report.laporan-barang.view');
             Route::get('delete/{id?}', [LaporanBarangController::class, 'delete'])->name('report.laporan-barang.delete');
