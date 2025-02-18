@@ -49,6 +49,7 @@ $.fn.Form = function () {
                 });
             }
         });
+
         $(".phone-number", elem).each(function () {
             let cleave = new Cleave(this, {
                 phone: true,
@@ -78,6 +79,16 @@ $.fn.Form = function () {
             });
             $(this).on("input", function () {
                 $(this).val($(this).val().replace(/\s/g, '').toUpperCase());
+            });
+        });
+
+        $(".password-toggle", elem).each(function () {
+            $(this).click(function () {
+                const passwordField = $(this).siblings('.password-input');
+                const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+                passwordField.attr('type', type);
+                const icon = $(this).find('i');
+                icon.toggleClass('fa-eye fa-eye-slash');
             });
         });
     });

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="bg-primary">
@@ -40,10 +42,15 @@
                             </div>
                         @enderror
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 position-relative">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password"
-                            value="{{ old('password') }}" placeholder="Masukkan password">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password"
+                                value="{{ old('password') }}" placeholder="Masukkan password">
+                            <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
+                                <i class="fas fa-eye-slash"></i> <!-- Icon mata -->
+                            </span>
+                        </div>
                         @error('password')
                             <div class="text-danger">
                                 *{{ $message }}
@@ -60,6 +67,15 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $('#togglePassword').click(function () {
+            const passwordField = $('#password');
+            const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', type);
+            const icon = $(this).find('i');
+            icon.toggleClass('fa-eye fa-eye-slash');
+        });
+    </script>
 </body>
 
 </html>
