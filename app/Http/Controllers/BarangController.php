@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TambahStok;
+use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Services\BarangServices;
@@ -23,8 +25,11 @@ class BarangController extends Controller
         if ($request->ajax()) {
             $model = $this->barangServices->index();
             return DataTables::of($model)
-                ->addColumn('status', function ($row) {
-                    return Carbon::now()->gt($row->tgl_kadaluarsa) ? '<div class="badge badge-danger">Kadaluarsa</div>' : '<div class="badge badge-success">Masih Berlaku</div>';
+                // ->addColumn('status', function ($row) {
+                //     return Carbon::now()->gt($row->tgl_kadaluarsa) ? '<div class="badge badge-danger">Kadaluarsa</div>' : '<div class="badge badge-success">Masih Berlaku</div>';
+                // })
+                ->addColumn('total_stok', function ($row) {
+                    return $row->total_stok;
                 })
                 ->rawColumns(['status'])
                 ->make(true);
@@ -71,4 +76,15 @@ class BarangController extends Controller
         return response()->json($data);
     }
 
+    public function createStok($id)
+    {
+        $model = Barang::find($id);
+        return view('barang.createStok', compact('model'));
+    }
+
+    public function storeStok(TambahStok $request, $id)
+    {
+        $data = $this->barangServices->storeStok($request->validated(), $id);
+        return response()->json($data);
+    }
 }

@@ -99,12 +99,12 @@
     const formatSelection = option => option.text;
     const formatDiskonOption = formatOptionFunction(option => $(option.element).data('status') || "Memenuhi syarat");
     const formatBarangOption = formatOptionFunction(option => {
-        const stok = parseInt($(option.element).data('stok'));
-        const stokMin = parseInt($(option.element).data('stok_minimal'));
-        if (stok === 0) {
+        const totalStok = parseInt($(option.element).data('stok')) || 0;
+        const stokMin = parseInt($(option.element).data('stok_minimal')) || 0;
+        if (totalStok === 0) {
             return "Stok Habis";
         }
-        return "Stok " + stok + (stok < stokMin ? " (Stok Menipis)" : "");
+        return "Stok " + totalStok + (totalStok < stokMin ? " (Stok Menipis)" : "");
     });
 
     const populatePelanggan = () => {
@@ -118,7 +118,7 @@
                         data-type="${item.type_pelanggan_id}"
                         data-nama="${item.nama_pelanggan}"
                         data-poin="${item.poin_member}">
-                        ${item.nama_pelanggan}
+                        ${item.nama_pelanggan} - ${item.type_pelanggan?.type || 'Tanpa Tipe'}
                         </option>
                     `));
                 $('#pelanggan').html(options.join('')).val("").trigger('change');
@@ -139,7 +139,7 @@
                         data-harga_jual_1="${item.harga_jual_1}"
                         data-harga_jual_2="${item.harga_jual_2}"
                         data-harga_jual_3="${item.harga_jual_3}"
-                        data-stok="${item.stok}"
+                        data-stok="${item.totalStok}"
                         data-stok_minimal="${item.stok_minimal}">
                         ${item.kode_barang} -
                         ${item.nama_barang}

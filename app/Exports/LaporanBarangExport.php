@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, WithEvents, WithCustomStartCell, ShouldAutoSize, WithStyles, WithColumnFormatting
 {
@@ -29,11 +30,11 @@ class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, 
 
     public function collection()
     {
-        $query = Barang::with(['kategori', 'detailTransaksi']);
+        $query = Barang::with(['kategori', 'detailTransaksi', 'tambahStok']);
 
         if ($dates = $this->dateRange) {
             $startDate = $dates[0];
-            $endDate = $dates[1];
+            $endDate   = $dates[1];
             $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
@@ -48,26 +49,40 @@ class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, 
             'Kategori',
             'Tanggal Pembelian',
             'Tanggal Kadaluarsa',
-            // 'Stok Awal',
             'Sisa Stok',
-            'HPP',
             'Tanggal Dibuat',
         ];
     }
 
     public function map($barang): array
     {
-        return [
+        $rows = [];
+
+        $stokUtama = (string)($barang->stok ?? 0);
+        $rows[] = [
             $barang->kode_barang,
             $barang->nama_barang,
             $barang->kategori->nama_kategori ?? '-',
             $barang->tgl_pembelian ? date('d/m/Y', strtotime($barang->tgl_pembelian)) : '',
             $barang->tgl_kadaluarsa ? date('d/m/Y', strtotime($barang->tgl_kadaluarsa)) : '',
-            // $barang->stok_awal === 0 ? '0' : $barang->stok_awal,
-            $barang->stok === 0 ? '0' : $barang->stok,
-            $barang->harga_beli,
+            $stokUtama,
             $barang->created_at ? date('d/m/Y', strtotime($barang->created_at)) : '',
         ];
+
+        foreach ($barang->tambahStok as $tambahStok) {
+            $stokTambahan = (string)($tambahStok->jumlah_stok ?? 0);
+            $rows[] = [
+                $barang->kode_barang,
+                $barang->nama_barang,
+                $barang->kategori->nama_kategori ?? '-',
+                $tambahStok->tgl_pembelian ? date('d/m/Y', strtotime($tambahStok->tgl_pembelian)) : '',
+                $tambahStok->tgl_kadaluarsa ? date('d/m/Y', strtotime($tambahStok->tgl_kadaluarsa)) : '',
+                $stokTambahan,
+                $barang->created_at ? date('d/m/Y', strtotime($barang->created_at)) : '',
+            ];
+        }
+
+        return $rows;
     }
 
     public function startCell(): string
@@ -77,108 +92,112 @@ class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, 
 
     public function registerEvents(): array
     {
-        $periodeText = "Seluruh Data Barang";
+        if ($this->dateRange && count($this->dateRange) == 2) {
+            $periodeText = "Periode: " . date('d/m/Y', strtotime($this->dateRange[0])) . " s/d " . date('d/m/Y', strtotime($this->dateRange[1]));
+        } else {
+            $periodeText = "Seluruh Data Barang";
+        }
 
         return [
             AfterSheet::class => function (AfterSheet $event) use ($periodeText) {
                 $sheet = $event->sheet->getDelegate();
 
-                $sheet->mergeCells('A1:I1');
+                $sheet->mergeCells('A1:G1');
                 $sheet->setCellValue('A1', 'Toko Kita Bersama');
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => [
-                        'bold' => true,
-                        'size' => 20,
+                        'bold'  => true,
+                        'size'  => 20,
                         'color' => ['rgb' => 'FFFFFF'],
                     ],
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
-                        'vertical' => Alignment::VERTICAL_CENTER,
+                        'vertical'   => Alignment::VERTICAL_CENTER,
                     ],
                     'fill' => [
-                        'fillType' => Fill::FILL_SOLID,
+                        'fillType'   => Fill::FILL_SOLID,
                         'startColor' => ['rgb' => '4CAF50'],
                     ],
                 ]);
 
-                $sheet->mergeCells('A2:I2');
+                $sheet->mergeCells('A2:G2');
                 $sheet->setCellValue('A2', 'Laporan Data Barang');
                 $sheet->getStyle('A2')->applyFromArray([
                     'font' => [
-                        'bold' => true,
-                        'size' => 16,
+                        'bold'  => true,
+                        'size'  => 16,
                         'color' => ['rgb' => '000000'],
                     ],
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
-                        'vertical' => Alignment::VERTICAL_CENTER,
+                        'vertical'   => Alignment::VERTICAL_CENTER,
                     ],
                 ]);
 
-                $sheet->mergeCells('A3:I3');
+                $sheet->mergeCells('A3:G3');
                 $sheet->setCellValue('A3', $periodeText);
                 $sheet->getStyle('A3')->applyFromArray([
                     'font' => [
                         'italic' => true,
-                        'size' => 12,
-                        'color' => ['rgb' => '000000'],
+                        'size'   => 12,
+                        'color'  => ['rgb' => '000000'],
                     ],
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
-                        'vertical' => Alignment::VERTICAL_CENTER,
+                        'vertical'   => Alignment::VERTICAL_CENTER,
                     ],
                 ]);
 
                 $printedBy = "Dicetak oleh: " . Auth::user()->name . " pada " . date('d/m/Y H:i:s');
-                $sheet->mergeCells('A4:I4');
+                $sheet->mergeCells('A4:G4');
                 $sheet->setCellValue('A4', $printedBy);
                 $sheet->getStyle('A4')->applyFromArray([
                     'font' => [
                         'italic' => true,
-                        'size' => 12,
-                        'color' => ['rgb' => '000000'],
+                        'size'   => 12,
+                        'color'  => ['rgb' => '000000'],
                     ],
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
-                        'vertical' => Alignment::VERTICAL_CENTER,
+                        'vertical'   => Alignment::VERTICAL_CENTER,
                     ],
                 ]);
 
-                $sheet->getStyle('A5:I5')->applyFromArray([
+                $sheet->getStyle('A5:G5')->applyFromArray([
                     'font' => [
-                        'bold' => true,
+                        'bold'  => true,
                         'color' => ['rgb' => '000000'],
                     ],
                     'fill' => [
-                        'fillType' => Fill::FILL_SOLID,
+                        'fillType'   => Fill::FILL_SOLID,
                         'startColor' => ['rgb' => 'C8E6C9'],
                     ],
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
-                        'vertical' => Alignment::VERTICAL_CENTER,
+                        'vertical'   => Alignment::VERTICAL_CENTER,
                     ],
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => Border::BORDER_THIN,
-                            'color' => ['rgb' => '000000'],
+                            'color'       => ['rgb' => '000000'],
                         ],
                     ],
                 ]);
 
                 $sheet->freezePane('A6');
-                $highestRow = $sheet->getHighestRow();
+                $highestRow    = $sheet->getHighestRow();
                 $highestColumn = $sheet->getHighestColumn();
 
                 $sheet->getStyle("A5:{$highestColumn}{$highestRow}")->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => Border::BORDER_THIN,
-                            'color' => ['rgb' => '000000'],
+                            'color'       => ['rgb' => '000000'],
                         ],
                     ],
                 ]);
 
-                $sheet->getStyle("E6:H{$highestRow}")
+                $sheet->getStyle("F6:F{$highestRow}")
                     ->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_RIGHT);
 
@@ -190,6 +209,31 @@ class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, 
                         ->getStartColor()
                         ->setRGB($fillColor);
                 }
+
+                $totalRow = $highestRow + 1;
+                $sheet->mergeCells("A{$totalRow}:E{$totalRow}");
+                $sheet->setCellValue("A{$totalRow}", "Total");
+                $sheet->setCellValue("F{$totalRow}", "=SUM(F6:F{$highestRow})");
+                $sheet->getStyle("A{$totalRow}:G{$totalRow}")->applyFromArray([
+                    'font' => [
+                        'bold'  => true,
+                        'color' => ['rgb' => '000000'],
+                    ],
+                    'fill' => [
+                        'fillType'   => Fill::FILL_SOLID,
+                        'startColor' => ['rgb' => 'C8E6C9'],
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical'   => Alignment::VERTICAL_CENTER,
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN,
+                            'color'       => ['rgb' => '000000'],
+                        ],
+                    ],
+                ]);
             },
         ];
     }
@@ -202,6 +246,8 @@ class LaporanBarangExport implements FromCollection, WithHeadings, WithMapping, 
 
     public function columnFormats(): array
     {
-        return ['H' => '"Rp " #,##0'];
+        return [
+            'F' => '#,##0;-#,##0;0',
+        ];
     }
 }

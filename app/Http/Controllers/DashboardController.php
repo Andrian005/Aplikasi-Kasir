@@ -49,17 +49,18 @@ class DashboardController extends Controller
 
     public function getBarang()
     {
-        $data = Barang::whereColumn('stok', '<=', 'stok_minimal')
-            ->get()
-            ->map(function ($item) {
-                if ($item->stok == 0) {
-                    $item->status_stok = 'Stok Habis';
-                } else {
-                    $item->status_stok = 'Stok Menipis';
-                }
-                return $item;
-            });
-        return response()->json($data);
+        return response()->json(
+            Barang::with('tambahStok')
+                ->where('tgl_kadaluarsa', '>=', now())
+                ->get()
+                ->map(function ($item) {
+                    $item->total_stok = $item->stok + $item->tambahStok->sum('jumlah_stok');
+                    $item->status_stok = $item->total_stok == 0 ? 'Stok Habis' : 'Stok Menipis';
+                    return $item;
+                })
+                ->filter(fn($item) => $item->total_stok <= $item->stok_minimal)
+                ->values()
+        );
     }
 
     public function chart()

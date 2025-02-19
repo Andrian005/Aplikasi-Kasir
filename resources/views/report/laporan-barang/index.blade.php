@@ -28,11 +28,11 @@
                                     <th>Kode Barang</th>
                                     <th>Nama Barang</th>
                                     <th>Kategori</th>
-                                    <th>Tanggal Pembelian</th>
-                                    <th>Tanggal Kadaluarsa</th>
+                                    <!-- <th>Tanggal Pembelian</th>
+                                        <th>Tanggal Kadaluarsa</th> -->
                                     <!-- <th>Stok Awal</th> -->
                                     <th>Sisa Stok</th>
-                                    <th>Tanggal Dibuat</th>
+                                    <!-- <th>Tanggal Dibuat</th> -->
                                     <th></th>
                                 </tr>
                             </thead>
@@ -95,22 +95,23 @@
                     { data: 'kode_barang', name: 'kode_barang' },
                     { data: 'nama_barang', name: 'nama_barang' },
                     { data: 'kategori.nama_kategori', name: 'kategori.nama_kategori' },
-                    { data: 'tgl_pembelian', name: 'tgl_pembelian' },
-                    { data: 'tgl_kadaluarsa', name: 'tgl_kadaluarsa' },
+                    // { data: 'tgl_pembelian', name: 'tgl_pembelian' },
+                    // { data: 'tgl_kadaluarsa', name: 'tgl_kadaluarsa' },
                     // { data: 'stok_awal', name: 'stok_awal' },
-                    { data: 'stok', name: 'stok' },
+                    { data: 'total_stok', name: 'total_stok' },
+                    // {
+                    //     data: 'created_at',
+                    //     name: 'created_at',
+                    //     render: function (data, type, row) {
+                    //         return data ? moment(data).format('YYYY-MM-DD') : '';
+                    //     }
+                    // },
                     {
-                        data: 'created_at',
-                        name: 'created_at',
-                        render: function (data, type, row) {
-                            return data ? moment(data).format('YYYY-MM-DD') : '';
-                        }
-                    },                    {
                         data: 'id', name: '_', orderable: false, searchable: false, class: 'text-right nowrap',
                         render: function (data, type, row) {
                             let html = `<div class="d-flex">`;
                             html += `<button onclick="view(${data})" class="btn btn-info btn-icon mr-2" title="Lihat">
-                                            <i class="fas fa-eye"></i>
+                                        <i class="fas fa-eye"></i>
                                     </button>`;
                             return html;
                         }
@@ -130,14 +131,14 @@
                 url: '{{ route('report.laporan-barang.view') }}/' + id,
                 success: function (response) {
                     bootbox.dialog({
-                        title: 'Detail Laporan Transaksi',
+                        title: 'Detail Laporan Barang',
                         message: response,
                     });
                 },
                 error: function (response) {
                     iziToast.error({
                         title: 'Error',
-                        message: 'Gagal memuat form view laporan transaksi.',
+                        message: 'Gagal memuat form view laporan barang.',
                         position: 'topRight',
                         timeout: 3000,
                         transitionIn: 'fadeInUp',

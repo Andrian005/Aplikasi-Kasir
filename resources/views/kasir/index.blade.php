@@ -82,58 +82,64 @@
             }
             updateAllFields();
 
-            $.ajax({
-                url: '{{ route('kasir.transaksi') }}',
-                type: 'POST',
-                dataType: 'JSON',
-                data: $('#formKasir').serialize(),
-                success: function (response) {
-                    if (response.success) {
-                        iziToast.success({
-                            title: 'Sukses',
-                            message: 'Transaksi berhasil diproses',
-                            position: 'topRight',
-                            timeout: 3000,
-                            transitionIn: 'fadeInUp',
-                            transitionOut: 'fadeOutDown'
-                        });
+            confirmTransaction().then((result) => {
+                if (result) {
+                    $.ajax({
+                        url: '{{ route('kasir.transaksi') }}',
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: $('#formKasir').serialize(),
+                        success: function (response) {
+                            if (response.success) {
+                                iziToast.success({
+                                    title: 'Sukses',
+                                    message: 'Transaksi berhasil diproses',
+                                    position: 'topRight',
+                                    timeout: 3000,
+                                    transitionIn: 'fadeInUp',
+                                    transitionOut: 'fadeOutDown'
+                                });
 
-                        $('#formKasir').trigger('reset');
+                                $('#formKasir').trigger('reset');
 
-                        $.each(cleaveInstances, function (key, instance) {
-                            instance.setRawValue(0);
-                        });
-                        cleaveBayar.setRawValue(0);
-                        cleaveKembalian.setRawValue(0);
+                                $.each(cleaveInstances, function (key, instance) {
+                                    instance.setRawValue(0);
+                                });
+                                cleaveBayar.setRawValue(0);
+                                cleaveKembalian.setRawValue(0);
 
-                        $('#data-pembelanjaan').find('.data-row').remove();
-                        $('#data-pembelanjaan').find('.data-kosong').show();
-                        $('#formKasir').find('input[name^="detail_transaksi"]').remove();
-                        detailIndex = 0;
+                                $('#data-pembelanjaan').find('.data-row').remove();
+                                $('#data-pembelanjaan').find('.data-kosong').show();
+                                $('#formKasir').find('input[name^="detail_transaksi"]').remove();
+                                detailIndex = 0;
 
-                        populatePelanggan();
-                        populateBarang();
+                                populatePelanggan();
+                                populateBarang();
 
-                        bootbox.dialog({
-                            message: '<div id="invoiceContent" style="min-height: 300px;">Loading invoice...</div>',
-                            onShown: function () {
-                                $("#invoiceContent").load("{{ route('kasir.invoice') }}/" + response.transaksiId);
+                                bootbox.dialog({
+                                    message: '<div id="invoiceContent" style="min-height: 300px;">Loading invoice...</div>',
+                                    onShown: function () {
+                                        $("#invoiceContent").load("{{ route('kasir.invoice') }}/" + response.transaksiId);
+                                    },
+                                    size: 'large',
+                                    className: 'modal-custom'
+                                });
+                                $('.bootbox').addClass('custom-dialog-size');
+                            } else {
+                                iziToast.error({
+                                    title: 'Error',
+                                    message: response.message,
+                                    position: 'topRight',
+                                    timeout: 3000,
+                                    transitionIn: 'fadeInUp',
+                                    transitionOut: 'fadeOutDown'
+                                });
                             }
-                        });
-                        $('.bootbox').addClass('custom-dialog-size');
-                    } else {
-                        iziToast.error({
-                            title: 'Error',
-                            message: response.message,
-                            position: 'topRight',
-                            timeout: 3000,
-                            transitionIn: 'fadeInUp',
-                            transitionOut: 'fadeOutDown'
-                        });
-                    }
-                },
-                error: function (error) {
-                    var response = JSON.parse(error.responseText);
+                        },
+                        error: function (error) {
+                            var response = JSON.parse(error.responseText);
+                        }
+                    });
                 }
             });
         }

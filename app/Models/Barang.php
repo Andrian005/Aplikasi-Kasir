@@ -50,7 +50,18 @@ class Barang extends Model
         return $this->stok + ($this->detailTransaksi->sum('total_jumlah_barang') ?? 0);
     }
 
-    public function getActivitylogOptions(): LogOptions
+    public function tambahStok()
+    {
+        return $this->hasMany(TambahStok::class, 'barang_id', 'id');
+    }
+
+    public function getTotalStokAttribute()
+    {
+        $jumlahStok = $this->tambahStok()->sum('jumlah_stok');
+        return $this->stok + $jumlahStok;
+    }
+
+        public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logOnly([

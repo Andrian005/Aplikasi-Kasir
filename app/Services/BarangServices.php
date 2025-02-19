@@ -142,4 +142,36 @@ class BarangServices
     {
         return $this->barangRepository->getKategori();
     }
+
+    public function storeStok($data, $id)
+    {
+        DB::beginTransaction();
+        try {
+
+            $data = [
+                'barang_id' => $id,
+                'jumlah_stok' => $data['jumlah_stok'],
+                'tgl_pembelian' => $data['tgl_pembelian'],
+                'tgl_kadaluarsa' => $data['tgl_kadaluarsa'],
+                'created_by' => Auth::user()->name,
+            ];
+
+            $this->barangRepository->storeStok($data);
+
+            DB::commit();
+            return [
+                'message' => 'Stok Berhasil di Tambah',
+                'success' => true,
+                'status' => 200
+            ];
+        } catch (Exception $e) {
+            DB::rollBack();
+            return [
+                'message' => 'Stok Gagal di Tambah',
+                'errors' => $e->getMessage(),
+                'status' => $e->getCode(),
+                'success' => false,
+            ];
+        }
+    }
 }

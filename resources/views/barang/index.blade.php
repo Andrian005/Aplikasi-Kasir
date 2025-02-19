@@ -21,7 +21,7 @@
                                     <th>Harga Jual 1</th>
                                     <th>Harga Jual 2</th>
                                     <th>Harga Jual 3</th>
-                                    <th>Status Kadaluarsa</th>
+                                    <!-- <th>Status Kadaluarsa</th> -->
                                     <th></th>
                                 </tr>
                             </thead>
@@ -45,7 +45,7 @@
                 columns: [
                     { data: 'nama_barang', name: 'nama_barang' },
                     { data: 'kategori.nama_kategori', name: 'kategori.nama_kategori' },
-                    { data: 'stok', name: 'stok' },
+                    { data: 'total_stok', name: 'total_stok' },
                     {
                         data: 'harga_beli', name: 'harga_beli',
                         render: $.fn.dataTable.render.number(',', '.', 0, 'Rp ')
@@ -62,25 +62,50 @@
                         data: 'harga_jual_3', name: 'harga_jual_3',
                         render: $.fn.dataTable.render.number(',', '.', 0, 'Rp ')
                     },
-                    { data: 'status', name: 'status' },
+                    // { data: 'status', name: 'status' },
                     {
                         data: 'id', name: '_', orderable: false, searchable: false, class: 'text-right nowrap',
                         render: function (data, type, row) {
                             let html;
-                            html = `<button onclick="view(${data})" class="btn btn-info btn-icon mr-2" title="Lihat">
-                                        <i class="fas fa-eye"></i>
-                                    </button>`;
+                            html = `<button onclick="tambahStok(${data})" class="btn btn-info btn-icon mr-2" title="Tambah Stok">
+                                            <i class="fas fa-plus"></i>
+                                        </button>`;
+                            html += `<button onclick="view(${data})" class="btn btn-info btn-icon mr-2" title="Lihat">
+                                            <i class="fas fa-eye"></i>
+                                        </button>`;
                             html += `<a href="/dashboard/barang/edit/${data}" class="btn btn-warning btn-icon mr-2" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>`;
+                                            <i class="fas fa-edit"></i>
+                                        </a>`;
                             html += `<button onclick="destroy(${data})" class="btn btn-danger btn-icon mr-2" title="Hapus">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button>`;
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>`;
                             return html;
                         }
                     }]
             });
         });
+
+        function tambahStok(id) {
+            $.ajax({
+                url: '{{ route('barang.createStok') }}/' + id,
+                success: function (response) {
+                    bootbox.dialog({
+                        title: 'Tambah Stok Barang',
+                        message: response,
+                    });
+                },
+                error: function (response) {
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'Gagal memuat form tambah stok barang.',
+                        position: 'topRight',
+                        timeout: 3000,
+                        transitionIn: 'fadeInUp',
+                        transitionOut: 'fadeOutDown'
+                    });
+                }
+            })
+        }
 
         function view(id) {
             $.ajax({
@@ -89,6 +114,8 @@
                     bootbox.dialog({
                         title: 'Detail Barang',
                         message: response,
+                        size: 'large',
+                        className: 'modal-custom'
                     });
                 },
                 error: function (response) {
@@ -101,7 +128,7 @@
                         transitionOut: 'fadeOutDown'
                     });
                 }
-            })
+            });
         }
 
         function destroy(id) {

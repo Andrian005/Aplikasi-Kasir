@@ -58,6 +58,7 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
 
     public function map($transaksi): array
     {
+        $poinDigunakan = (string)($transaksi->poin_member_digunakan ?? 0);
         return [
             $transaksi->detailKasir->name ?? 'Tidak diketahui',
             $transaksi->created_at ? $transaksi->created_at->format('d/m/Y H:i:s') : '',
@@ -65,7 +66,7 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
             $transaksi->pelanggan->typePelanggan->type ?? '-',
             $transaksi->total_belanja,
             $transaksi->diskon,
-            $transaksi->poin_member_digunakan,
+            $poinDigunakan,
             $transaksi->total_akhir,
         ];
     }

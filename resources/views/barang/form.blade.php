@@ -24,7 +24,7 @@
                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                 </div>
                 <input type="text" name="tgl_pembelian" value="{{ $data->tgl_pembelian ?? '' }}"
-                    class="form-control custom-datepicker" placeholder="yyyy-mm-dd">
+                    class="form-control custom-datepicker" placeholder="yyyy-mm-dd" {{ $data->tgl_pembelian ? 'disabled' : '' }}>
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                 </div>
                 <input type="text" name="tgl_kadaluarsa" value="{{ $data->tgl_kadaluarsa ?? '' }}"
-                    class="form-control datepicker" placeholder="yyyy-mm-dd">
+                    class="form-control datepicker" placeholder="yyyy-mm-dd" {{ $data->tgl_kadaluarsa ? 'disabled' : '' }}>
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@
         <div class="form-group">
             <label for="stok">Stok Barang <span class="text-danger">*</span></label>
             <input type="text" name="stok" id="stok" value="{{ $data->stok ?? '' }}" class="form-control number"
-                placeholder="Masukkan stok" {{ isset($data->stok) ? 'disabled' : '' }}>
+                placeholder="Masukkan stok" {{ $data->stok ? 'disabled' : '' }}>
         </div>
     </div>
     <div class="col-md-4">

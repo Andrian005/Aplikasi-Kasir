@@ -17,7 +17,7 @@ class LaporanBarangController extends Controller
     {
         $title = 'Laporan Barang';
 
-        $model = Barang::with(['kategori', 'detailTransaksi']);
+        $model = Barang::with(['kategori', 'detailTransaksi', 'tambahStok']);
 
         if ($request->has('date_range') && !empty($request->date_range)) {
             $dates = explode(' - ', $request->date_range);
@@ -35,6 +35,9 @@ class LaporanBarangController extends Controller
                 })
                 ->addColumn('role', function () {
                     return auth()->user()->role->role;
+                })
+                ->addColumn('total_stok', function ($row) {
+                    return $row->total_stok;
                 })
                 ->make(true);
         }
@@ -76,7 +79,7 @@ class LaporanBarangController extends Controller
     public function pdf(Request $request)
     {
         $dateRangeInput = $request->get('date_range');
-        $query = Barang::with(['kategori', 'detailTransaksi']);
+        $query = Barang::with(['kategori', 'detailTransaksi', 'tambahStok']);
 
         $dateRange = null;
         if ($dateRangeInput) {

@@ -49,9 +49,16 @@ class KasirRepository
 
     public function getBarang()
     {
-        return $this->barang::select('id', 'kode_barang', 'nama_barang', 'tgl_kadaluarsa', 'harga_beli',  'harga_jual_1', 'harga_jual_2', 'harga_jual_3','stok_minimal', 'stok')
-            ->where('tgl_kadaluarsa', '>', now())
-            ->get();
+        return $this->barang::with(['tambahStok'])
+            ->select('id', 'kode_barang', 'nama_barang', 'tgl_kadaluarsa', 'harga_beli', 'harga_jual_1', 'harga_jual_2', 'harga_jual_3', 'stok_minimal', 'stok')
+            ->get()
+            ->map(function ($barang) {
+                $stokUtama = $barang->tgl_kadaluarsa >= now() ? $barang->stok : 0;
+                $stokTambahan = $barang->tambahStok->where('tgl_kadaluarsa', '>=', now())->sum('jumlah_stok');
+                $barang->totalStok = $stokUtama + $stokTambahan;
+
+                return $barang;
+            });
     }
 
     public function storeTransaksi($data)

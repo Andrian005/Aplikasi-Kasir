@@ -80,6 +80,8 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::get('edit/{id?}', [BarangController::class, 'edit'])->name('barang.edit');
         Route::post('update/{id?}', [BarangController::class, 'update'])->name('barang.update');
         Route::get('delete/{id?}', [BarangController::class, 'delete'])->name('barang.delete');
+        Route::get('createStok/{id?}', [BarangController::class, 'createStok'])->name('barang.createStok');
+        Route::post('storeStok/{id?}', [BarangController::class, 'storeStok'])->name('barang.storeStok');
     });
 
     Route::prefix('pelanggan')->middleware('role')->group(function () {

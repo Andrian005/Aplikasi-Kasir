@@ -70,20 +70,35 @@ class KasirServices
 
             if (isset($data['detail_transaksi']) && is_array($data['detail_transaksi'])) {
                 foreach ($data['detail_transaksi'] as $detail) {
-                    $detailData = [
+                    $barang = $this->barangRepository->findById($detail['barang_id']);
+                    $jumlahBarang = $detail['jumlah'];
+
+                    $stokList = $barang->tambahStok()
+                        ->where('jumlah_stok', '>', 0)
+                        ->where('tgl_kadaluarsa', '>=', now())
+                        ->orderBy('tgl_kadaluarsa')
+                        ->get();
+
+                    foreach ($stokList as $stok) {
+                        if ($jumlahBarang <= 0)
+                            break;
+                        $kurang = min($jumlahBarang, $stok->jumlah_stok);
+                        $stok->decrement('jumlah_stok', $kurang);
+                        $jumlahBarang -= $kurang;
+                    }
+
+                    if ($jumlahBarang > 0 && $barang->tgl_kadaluarsa >= now()) {
+                        $barang->decrement('stok', $jumlahBarang);
+                    }
+
+                    $this->kasirRepository->storeDetailTransaksi([
                         'transaksi_id' => $transaksiId->id,
                         'barang_id' => $detail['barang_id'],
                         'jumlah_barang' => $detail['jumlah'],
                         'harga_satuan' => $detail['harga_satuan'],
                         'sub_total' => $detail['sub_total'],
                         'created_by' => Auth::user()->name,
-                    ];
-
-                    $barang = $this->barangRepository->findById($detail['barang_id']);
-                    $barang->stok -= $detail['jumlah'];
-
-                    $this->kasirRepository->storeDetailTransaksi($detailData);
-                    $this->kasirRepository->updateBarang($detail['barang_id'], ['stok' => $barang->stok]);
+                    ]);
                 }
             }
 
